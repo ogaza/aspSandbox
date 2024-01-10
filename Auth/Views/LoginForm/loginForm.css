@@ -1,0 +1,13 @@
+.form {
+  display: flex;
+  flex-flow: column nowrap;
+  gap: 1rem;
+
+  width: 50%;
+}
+
+.form-container {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
