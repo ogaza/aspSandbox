@@ -23,6 +23,10 @@ Sub RenderForm
       <input type="text" name="name" value="<%=name%>" />
     </fieldset>
     <fieldset>
+      <label for="email">Email</label>
+      <input type="text" name="email" value="<%=m_sCompanyEmail%>" />
+    </fieldset>
+    <fieldset>
       <% RenderChkBox "soberity", "Is sober", isSober %>
     </fieldset>
     <fieldset>
