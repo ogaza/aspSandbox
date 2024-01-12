@@ -36,6 +36,7 @@ Dim m_sCompanyIsNice
 Dim m_sCompanyEmail
 Dim emailMaxLength : emailMaxLength = 12
 Dim m_sCompanyZip
+Dim zipMaxLength : zipMaxLength = 8
 
 
 m_sCompanyName = Request.Form("companyName")
@@ -65,47 +66,77 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
   ' post summary
   PrintPOSTSummary
 
-  WriteInDiv "VALIDATION RESULT:"
-  ' validate
-  Dim validationErrorMessages
-  validationErrorMessages = ValidateEmail
-  ' render validation summary
-  RenderFieldValidationResult COMPANY_EMAIL_LABEL, validationErrorMessages
+  Dim validationResults
+  validationResults = Array(ValidateEmail, ValidateZip)
 
-  ' validate
-  validationErrorMessages = ValidateZip
-  ' render validation summary
-  RenderFieldValidationResult COMPANY_ZIP_LABEL, validationErrorMessages
+  WriteInDiv "VALIDATION RESULT:"
+  Dim validationResult
+  Dim i
+  For i = 0 To UBound(validationResults)
+    validationResult = validationResults(i)
+    Dim fieldLabel : fieldLabel = validationResult(0)
+    Dim errors : errors = validationResult(1)
+    RenderFieldValidationResult fieldLabel, errors
+  Next
+
 End If
 
-Function ValidateEmail() 
-  ReDim emailValidationResults(2)
+Function ValidateEmail()
+  ReDim validationErrors(2)
 
   If Not RequiredFieldProvided(m_sCompanyEmail) Then
-    emailValidationResults(1) = "Value is required"
+    validationErrors(0) = "Value is required"
   End IF
 
   If Not EmailHasValidFormat(m_sCompanyEmail) Then
-    emailValidationResults(0) = "Wrong format"
+    validationErrors(1) = "Wrong format"
   End IF
 
   If Not HasMaxLengthOf(m_sCompanyEmail, emailMaxLength) Then
-    emailValidationResults(1) = "Cannot have more than " & emailMaxLength & " charcters" 
+    validationErrors(2) = "Cannot have more than " & emailMaxLength & " charcters" 
   End IF
 
-  ValidateEmail = emailValidationResults
+  ValidateEmail = Array(COMPANY_EMAIL_LABEL, validationErrors)
+End Function
 
-  ' Dim i
-  ' For i = 0 To UBound(emailValidationResults)
-  '   If emailValidationResults(i) <> "" Then
-  '     WriteInDiv emailValidationResults(i)
-  '   End If
-  ' Next
-  
+Function ValidateZip()
+  ReDim validationErrors(2)
+
+  If Not RequiredFieldProvided(m_sCompanyZip) Then
+    validationErrors(0) = "Value is required"
+  End IF
+
+  If Not EmailHasValidFormat(m_sCompanyZip) Then
+    validationErrors(1) = "Wrong format"
+  End IF
+
+  If Not HasMaxLengthOf(m_sCompanyZip, zipMaxLength) Then
+    validationErrors(2) = "Cannot have more than " & emailMaxLength & " charcters" 
+  End IF
+
+  ValidateZip = Array(COMPANY_ZIP_LABEL, validationErrors)
+End Function
+
+Function ValidateEmail_old() 
+  ReDim validationErrors(2)
+
+  If Not RequiredFieldProvided(m_sCompanyEmail) Then
+    validationErrors(0) = "Value is required"
+  End IF
+
+  If Not EmailHasValidFormat(m_sCompanyEmail) Then
+    validationErrors(1) = "Wrong format"
+  End IF
+
+  If Not HasMaxLengthOf(m_sCompanyEmail, emailMaxLength) Then
+    validationErrors(2) = "Cannot have more than " & emailMaxLength & " charcters" 
+  End IF
+
+  ValidateEmail_old = validationErrors
+
   ' Dim d
   ' Set d = Server.CreateObject("Scripting.Dictionary")
   ' d.Add "email", validators
-
   ' If d.Exists("gr") = True Then
   '   Dim tmp : tmp = d.Item("gr")
   '   d.Remove("gr")
@@ -114,31 +145,7 @@ Function ValidateEmail()
   '   d.Add "gr","Green"
   ' End If
   ' Response.Write("The value of key gr is: " & d.Item("gr"))
-  
   ' set d = Nothing
-
-End Function
-
-Function ValidateZip()
-
-  Dim zipMaxLength
-  zipMaxLength = 8
-
-  ReDim validationResults(2)
-
-  If Not RequiredFieldProvided(m_sCompanyZip) Then
-    validationResults(1) = "Value is required"
-  End IF
-
-  If Not HasMaxLengthOf(m_sCompanyZip, zipMaxLength) Then
-    validationResults(1) = "Cannot have more than " & zipMaxLength & " charcters"
-  End IF
-
-  If Not iUtils_validZip("US", m_sCompanyZip) Then
-    validationResults(0) = "Wrong format"
-  End IF
-
-  ValidateZip = validationResults
 End Function
 
 Function ValidateZip_VerraStyle
