@@ -8,11 +8,12 @@
 }
 
 .form-container fieldset {
+  width: 100%;
   border: none;
 
   display: grid;
+  grid-template-columns: 1fr 1fr;
   gap: 8px;
-  grid-template-columns: 50% 50%;
 }
 
 .form-container fieldset:last-child {
@@ -20,7 +21,7 @@
 }
 
 form {
-  display: grid;
+  display: flex;
   flex-direction: column;
   gap: 8px;
 }

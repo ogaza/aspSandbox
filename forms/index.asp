@@ -9,6 +9,7 @@
 <!--#include virtual="/Auth/Services/ApxSecurity.inc.asp"-->
 <!--#include virtual="/Auth/Services/Authservice.asp"-->
 <!--#include virtual="/forms/form.asp"-->
+<!--#include virtual="/forms/formValidationView.asp"-->
 <!--#include virtual="/forms/validation.asp"-->
 
 <!-- end of asp includes -->
@@ -64,12 +65,83 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
   ' post summary
   PrintPOSTSummary
 
-  WriteInDiv "VALIDATION RESULTS"
-  ValidateEmail
-  WriteInDiv ValidateZip
+  WriteInDiv "VALIDATION RESULT:"
+  ' validate
+  Dim validationErrorMessages
+  validationErrorMessages = ValidateEmail
+  ' render validation summary
+  RenderFieldValidationResult COMPANY_EMAIL_LABEL, validationErrorMessages
+
+  ' validate
+  validationErrorMessages = ValidateZip
+  ' render validation summary
+  RenderFieldValidationResult COMPANY_ZIP_LABEL, validationErrorMessages
 End If
 
-Function ValidateZip
+Function ValidateEmail() 
+  ReDim emailValidationResults(2)
+
+  If Not RequiredFieldProvided(m_sCompanyEmail) Then
+    emailValidationResults(1) = "Value is required"
+  End IF
+
+  If Not EmailHasValidFormat(m_sCompanyEmail) Then
+    emailValidationResults(0) = "Wrong format"
+  End IF
+
+  If Not HasMaxLengthOf(m_sCompanyEmail, emailMaxLength) Then
+    emailValidationResults(1) = "Cannot have more than " & emailMaxLength & " charcters" 
+  End IF
+
+  ValidateEmail = emailValidationResults
+
+  ' Dim i
+  ' For i = 0 To UBound(emailValidationResults)
+  '   If emailValidationResults(i) <> "" Then
+  '     WriteInDiv emailValidationResults(i)
+  '   End If
+  ' Next
+  
+  ' Dim d
+  ' Set d = Server.CreateObject("Scripting.Dictionary")
+  ' d.Add "email", validators
+
+  ' If d.Exists("gr") = True Then
+  '   Dim tmp : tmp = d.Item("gr")
+  '   d.Remove("gr")
+  '   d.Add "gr", "White" & " " & "Green"
+  ' Else
+  '   d.Add "gr","Green"
+  ' End If
+  ' Response.Write("The value of key gr is: " & d.Item("gr"))
+  
+  ' set d = Nothing
+
+End Function
+
+Function ValidateZip()
+
+  Dim zipMaxLength
+  zipMaxLength = 8
+
+  ReDim validationResults(2)
+
+  If Not RequiredFieldProvided(m_sCompanyZip) Then
+    validationResults(1) = "Value is required"
+  End IF
+
+  If Not HasMaxLengthOf(m_sCompanyZip, zipMaxLength) Then
+    validationResults(1) = "Cannot have more than " & zipMaxLength & " charcters"
+  End IF
+
+  If Not iUtils_validZip("US", m_sCompanyZip) Then
+    validationResults(0) = "Wrong format"
+  End IF
+
+  ValidateZip = validationResults
+End Function
+
+Function ValidateZip_VerraStyle
 
   Dim zipMaxLength
   zipMaxLength = 8
@@ -94,46 +166,7 @@ Function ValidateZip
       "</B></A> -- incorrect format."
   End If
 
-  ValidateZip = sErrMsg
-End Function
-
-Function ValidateEmail() 
-  ReDim emailValidationResults(2)
-
-  If Not RequiredFieldProvided(m_sCompanyEmail) Then
-    emailValidationResults(1) = "Email is required" 
-  End IF
-
-  If Not EmailHasValidFormat(m_sCompanyEmail) Then
-    emailValidationResults(0) = "Email has wrong format"
-  End IF
-
-  If Not HasMaxLengthOf(m_sCompanyEmail, emailMaxLength) Then
-    emailValidationResults(1) = "Email cannot have more than " & emailMaxLength & " charcters" 
-  End IF
-
-  Dim i
-  For i = 0 To UBound(emailValidationResults)
-    If emailValidationResults(i) <> "" Then
-      WriteInDiv emailValidationResults(i)
-    End If
-  Next
-  
-  ' Dim d
-  ' Set d = Server.CreateObject("Scripting.Dictionary")
-  ' d.Add "email", validators
-
-  ' If d.Exists("gr") = True Then
-  '   Dim tmp : tmp = d.Item("gr")
-  '   d.Remove("gr")
-  '   d.Add "gr", "White" & " " & "Green"
-  ' Else
-  '   d.Add "gr","Green"
-  ' End If
-  ' Response.Write("The value of key gr is: " & d.Item("gr"))
-  
-  ' set d = Nothing
-
+  ValidateZip_VerraStyle = sErrMsg
 End Function
 
 Sub PrintPOSTSummary() 
@@ -155,5 +188,6 @@ Sub WriteInDiv(text)
   Response.Write(text)
   Response.Write("</div>")
 End Sub 
+
  %>
 
