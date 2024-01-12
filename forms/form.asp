@@ -19,15 +19,19 @@ Sub RenderForm
   <form name="example-form" method="POST">
     <% FormCsrfHiddenInput %>
     <fieldset>
-      <label for="name">Name</label>
-      <input type="text" name="name" value="<%=name%>" />
+      <label for="companyName"><%=COMPANY_NAME_LABEL%></label>
+      <input type="text" name="companyName" value="<%=m_sCompanyName%>" />
     </fieldset>
     <fieldset>
-      <label for="email">Email</label>
-      <input type="text" name="email" value="<%=m_sCompanyEmail%>" />
+      <label for="companyEmail"><%=COMPANY_EMAIL_LABEL%></label>
+      <input type="text" name="companyEmail" value="<%=m_sCompanyEmail%>" />
     </fieldset>
     <fieldset>
-      <% RenderChkBox "soberity", "Is sober", isSober %>
+      <label for="companyZip"><%=COMPANY_ZIP_LABEL%></label>
+      <input type="text" name="companyZip" value="<%=m_sCompanyZip%>" />
+    </fieldset>
+    <fieldset>
+      <% RenderChkBox "companyNiceness", COMPANY_IS_NICE_LABEL, m_sCompanyIsNice %>
     </fieldset>
     <fieldset>
       <button type="submit">submit</button>

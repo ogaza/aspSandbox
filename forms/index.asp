@@ -24,19 +24,24 @@ CheckCSRF
 <!--#include virtual="/Views/Common/myPageHeader.asp"-->
 
 <%
-Const COMPANY_EMAIL_LABEL = "Organization Email"
+Const COMPANY_NAME_LABEL = "Company Name"
+Const COMPANY_EMAIL_LABEL = "Company Email"
+Const COMPANY_ZIP_LABEL = "Company ZIP Code"
+Const COMPANY_IS_NICE_LABEL = "Company Is Nice"
 
-Dim name
-Dim soberity
-Dim isSober
+Dim m_sCompanyName
+Dim m_sCompanyNiceness
+Dim m_sCompanyIsNice
 Dim m_sCompanyEmail
 Dim emailMaxLength : emailMaxLength = 12
+Dim m_sCompanyZip
 
 
-name = Request.Form("name")
-soberity = Request.Form("soberity")
-isSober = soberity = "on"
-m_sCompanyEmail = trim(Request.Form("email"))
+m_sCompanyName = Request.Form("companyName")
+m_sCompanyNiceness = Request.Form("companyNiceness")
+m_sCompanyIsNice = m_sCompanyNiceness = "on"
+m_sCompanyEmail = trim(Request.Form("companyEmail"))
+m_sCompanyZip = trim(Request.Form("companyZip"))
 %>
 
 <!-- content wrapper -->
@@ -59,62 +64,64 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
   ' post summary
   PrintPOSTSummary
 
-  Dim emailValidationResult
-  emailValidationResult = ValidateEmail()
-
-  WriteInDiv "EMAIL VALIDATION RESULTS"
-  Dim i
-  For i = 0 To UBound(emailValidationResult)
-    If emailValidationResult(i) <> "" Then
-      WriteInDiv emailValidationResult(i)
-    End If
-  Next
-  WriteInDiv "VALIDATION RESULTS END"
-
-  ' Dim validationMsg : validationMsg = ValidateForm
-  ' WriteInDiv validationMsg
-
-  ' ' further validation
-  ' ' name
-  ' WriteInDiv "" & _
-  '   "name provided: " & _
-  '   RequiredFieldProvided(name)
-  ' ' email
-  ' WriteInDiv "" & _
-  '   "email shorter than " & emailMaxLength & ": " & _ 
-  '   HasMaxLengthOf(m_sCompanyEmail, emailMaxLength)
-  ' WriteInDiv "" & _
-  '   "email has a correct format: " & _ 
-  '   EmailHasValidFormat(m_sCompanyEmail)
-  ' WriteInDiv "" & _
-  '   "email provided: " & _
-  '   RequiredFieldProvided(m_sCompanyEmail)
+  WriteInDiv "VALIDATION RESULTS"
+  ValidateEmail
+  WriteInDiv ValidateZip
 End If
 
+Function ValidateZip
+
+  Dim zipMaxLength
+  zipMaxLength = 8
+
+  Dim sErrMsg
+  sErrMsg = ""
+
+  If (m_sCompanyZip = "") Then
+    sErrMsg = sErrMsg & _
+      "<A HREF=javascript:fnFieldFocus(document.frmApplication.txtCompanyZip)><B>" & _
+      COMPANY_ZIP_LABEL & _ 
+      "</B></A> -- required field."
+  ElseIf (Len(m_sCompanyZip) > zipMaxLength) Then
+    sErrMsg = sErrMsg & _ 
+      "<A HREF=javascript:fnFieldFocus(document.frmApplication.txtCompanyZip)><B>" & _
+      COMPANY_ZIP_LABEL & _
+      "</B></A> -- max length is " & zipMaxLength & " characters."
+  ElseIf Not iUtils_validZip("US", m_sCompanyZip) Then
+    sErrMsg = sErrMsg & _
+      "<A HREF=javascript:fnFieldFocus(document.frmApplication.txtCompanyZip)><B>" & _
+      COMPANY_ZIP_LABEL & _ 
+      "</B></A> -- incorrect format."
+  End If
+
+  ValidateZip = sErrMsg
+End Function
+
 Function ValidateEmail() 
-  ' Dim i
-  ReDim validators(1)
+  ReDim emailValidationResults(2)
+
+  If Not RequiredFieldProvided(m_sCompanyEmail) Then
+    emailValidationResults(1) = "Email is required" 
+  End IF
 
   If Not EmailHasValidFormat(m_sCompanyEmail) Then
-    validators(0) = "Email has wrong format"
+    emailValidationResults(0) = "Email has wrong format"
   End IF
 
   If Not HasMaxLengthOf(m_sCompanyEmail, emailMaxLength) Then
-    validators(1) = "Email cannot have more than " & emailMaxLength & " charcters" 
+    emailValidationResults(1) = "Email cannot have more than " & emailMaxLength & " charcters" 
   End IF
 
-  ValidateEmail = validators
+  Dim i
+  For i = 0 To UBound(emailValidationResults)
+    If emailValidationResults(i) <> "" Then
+      WriteInDiv emailValidationResults(i)
+    End If
+  Next
   
   ' Dim d
   ' Set d = Server.CreateObject("Scripting.Dictionary")
   ' d.Add "email", validators
-
-  ' For i = 0 To UBound(validators)
-  '   values_accountIds(i) = accouintIds(i)
-  ' Next
-
-  ' Dim arr : arr = d.Item("email")
-  ' Response.Write("Arr is: " & arr(1))
 
   ' If d.Exists("gr") = True Then
   '   Dim tmp : tmp = d.Item("gr")
@@ -131,9 +138,10 @@ End Function
 
 Sub PrintPOSTSummary() 
   WriteInDiv "POST REQUEST VALUES:"
-  WriteFormFieldValue "name", name
-  WriteFormFieldValue "is sober", isSober
-  WriteFormFieldValue "email", m_sCompanyEmail
+  WriteFormFieldValue COMPANY_NAME_LABEL, m_sCompanyName
+  WriteFormFieldValue COMPANY_EMAIL_LABEL, m_sCompanyEmail
+  WriteFormFieldValue COMPANY_ZIP_LABEL, m_sCompanyZip
+  WriteFormFieldValue COMPANY_IS_NICE_LABEL, m_sCompanyIsNice
 End Sub
 
 Sub WriteFormFieldValue(fieldName, fieldValue)

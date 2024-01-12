@@ -129,4 +129,35 @@ function iUtils_valid_1_Email(email, errMsg)
     Set rex = Nothing
   end if
 end function
+
+Function iUtils_ValidZip(sCountry, sZip)
+  iUtils_ValidZip = False
+  sZip = Trim(sZip)
+
+  Dim i, selChar
+  Select Case sCountry
+    Case "US", "MX":			'1 for US and 2 for Mexico
+      If (Len(sZip) = 5) Then
+        For i = 1 To Len(sZip)
+          selChar = mid(sZip, i, 1)
+          If (Not IsNumeric(selChar)) Then Exit Function
+        Next
+        iUtils_validZIP = True
+      End If
+    Case "CA":				'3 for Canada
+      If (Len(sZip) = 6) Then
+        For i = 1 To Len(sZip)
+          selChar = mid(sZip, i, 1)
+          If i = 2 or i = 4 or i = 6 Then
+            If (Not IsNumeric(selChar)) Then Exit Function
+          Else
+            If (Not((selChar >= chr(65) and selChar <= chr(90)) OR (selChar>= chr(97) and selChar <= chr(122)))) Then Exit Function
+          End If
+        Next
+        iUtils_validZIP = True
+      End If
+    Case Else:
+      iUtils_ValidZip = True ' For a country besides US and Canada, there should be no zip validation.
+  End Select
+End Function
 %>
