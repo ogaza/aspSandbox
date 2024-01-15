@@ -4,6 +4,13 @@
 <link rel="stylesheet" href="form.css" />
 <!-- end of links -->
 
+<script language="javascript">
+  function fnFieldFocus(formFileld) 
+  {
+    formFileld.focus();
+  }
+</script>
+
 <!-- includes for asp with code here -->
 
 <!--#include virtual="/Auth/Services/ApxSecurity.inc.asp"-->
@@ -37,7 +44,6 @@ Dim m_sCompanyEmail
 Dim emailMaxLength : emailMaxLength = 12
 Dim m_sCompanyZip
 Dim zipMaxLength : zipMaxLength = 8
-
 
 m_sCompanyName = Request.Form("companyName")
 m_sCompanyNiceness = Request.Form("companyNiceness")
@@ -74,10 +80,15 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
   Dim i
   For i = 0 To UBound(validationResults)
     validationResult = validationResults(i)
-    Dim fieldLabel : fieldLabel = validationResult(0)
-    Dim errors : errors = validationResult(1)
-    RenderFieldValidationResult fieldLabel, errors
+    Dim fieldName : fieldName = validationResult(0)
+    Dim fieldLabel : fieldLabel = validationResult(1)
+    Dim errors : errors = validationResult(2)
+    ' print validation results as html
+    RenderFieldValidationResult fieldName, fieldLabel, errors
   Next
+
+  ' print validation results as js variable
+  RenderScriptWithFieldValidationResult validationResults
 
 End If
 
@@ -96,7 +107,7 @@ Function ValidateEmail()
     validationErrors(2) = "Cannot have more than " & emailMaxLength & " charcters" 
   End IF
 
-  ValidateEmail = Array(COMPANY_EMAIL_LABEL, validationErrors)
+  ValidateEmail = Array("companyEmail", COMPANY_EMAIL_LABEL, validationErrors)
 End Function
 
 Function ValidateZip()
@@ -106,15 +117,15 @@ Function ValidateZip()
     validationErrors(0) = "Value is required"
   End IF
 
-  If Not EmailHasValidFormat(m_sCompanyZip) Then
+  If Not iUtils_ValidZip("US", m_sCompanyZip) Then
     validationErrors(1) = "Wrong format"
   End IF
 
   If Not HasMaxLengthOf(m_sCompanyZip, zipMaxLength) Then
-    validationErrors(2) = "Cannot have more than " & emailMaxLength & " charcters" 
+    validationErrors(2) = "Cannot have more than " & zipMaxLength & " charcters" 
   End IF
 
-  ValidateZip = Array(COMPANY_ZIP_LABEL, validationErrors)
+  ValidateZip = Array("companyZip", COMPANY_ZIP_LABEL, validationErrors)
 End Function
 
 Function ValidateEmail_old() 
@@ -148,6 +159,7 @@ Function ValidateEmail_old()
   ' set d = Nothing
 End Function
 
+' not used in this solution, just copied from verra to see how it works there
 Function ValidateZip_VerraStyle
 
   Dim zipMaxLength

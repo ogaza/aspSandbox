@@ -29,6 +29,7 @@ form {
 fieldset {
   margin: 0;
   padding: 0;
+  position: relative;
 }
 
 fieldset :first-child {
@@ -40,4 +41,17 @@ input[type="checkbox"] {
   height: 16px;
 
   margin: 0;
+}
+
+fieldset.invalid input:focus {
+  transition: box-shadow 0.3s;
+  box-shadow: 0 0 8px red;
+}
+
+fieldset.invalid::after {
+  position: absolute;
+  left: 0;
+
+  content: "*";
+  color: red;
 }
