@@ -2,6 +2,5 @@
 
 <%
 Call LogOff()
-
-Response.Redirect("/auth/views/loginForm/loginForm.asp")
+Response.Redirect("/")
 %>

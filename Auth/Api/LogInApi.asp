@@ -12,6 +12,9 @@ Set mypassword = Request.Form("mypassword")
 Dim c16e
 Set c16e = Request.Form("c16e")
 
+Dim redirectUrl
+Set redirectUrl = Request.Form("redirectUrl")
+
 Dim json
 set json = Server.CreateObject("Chilkat_9_5_0.JsonObject")
 
@@ -30,6 +33,9 @@ Else
 End If
 
 success = json.AddStringAt(-1, "CSRF_SECURITY_TOKEN", Session("CSRF_SECURITY_TOKEN"))
+If Not (redirectUrl Is Nothing) Then
+  success = json.AddStringAt(-1, "redirectUrl", redirectUrl)
+End If
 
 json.EmitCompact = 0
 Dim result

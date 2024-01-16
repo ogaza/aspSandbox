@@ -23,9 +23,10 @@ Function LogOff()
   Session.Abandon
 End Function
 
-Sub RedirectIfNotLoggedIn 
+Sub RedirectIfNotLoggedIn
   If Not IsLoogedIn() Then
-    Response.Redirect("/")
+    Dim requestedUrl : requestedUrl = Request.ServerVariables("URL")
+    Response.Redirect("/Auth/Views/LoginForm/LoginForm.asp?url=" & requestedUrl)
     Response.End
   End If
 End Sub
