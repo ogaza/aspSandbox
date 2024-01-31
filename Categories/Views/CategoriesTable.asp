@@ -1,26 +1,15 @@
-<title>Categories Table</title>
-
-<!--#include virtual="/Auth/Services/ApxSecurity.inc.asp"-->
 <!--#include virtual="/Auth/Services/Authservice.asp"-->
-
 <%
-RedirectIfNotLoggedIn
+AuthenticateApiRequest
 %>
-
-<!--#include virtual="/Views/Common/myPageHeader.asp"-->
 
 <!--#include virtual="/DB/iDBPointer.asp"-->
 
-<div class="wrapper">
-  <main class="main">
-    <section class="section--main">
-      <!-- main page content -->
-      <%
-      Call InsertCategoriesTable()
-      %>
-    </section>
-  </main>
-</div>
+<!-- main page content -->
+<%
+Call Delay()
+Call InsertCategoriesTable()
+%>
 
 <%
 Sub InsertCategoriesTable()
@@ -46,7 +35,15 @@ End Sub
 %>
 
 <%
-If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
-  Response.Redirect("/Categories/Views/")
-End If
- %>
+Sub Delay 
+  Dim counter : counter = 0
+  Dim i : i = 1
+
+  For i = 0 To 1000
+    While counter < 100000
+      counter = counter + 1
+    Wend
+    counter = 0
+  Next
+End Sub
+%>
