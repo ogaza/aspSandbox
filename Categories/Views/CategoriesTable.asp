@@ -10,36 +10,39 @@ RedirectIfNotLoggedIn
 <!--#include virtual="/Views/Common/myPageHeader.asp"-->
 
 <!--#include virtual="/DB/iDBPointer.asp"-->
-<%
-Dim oQTable : Set oQTable = Server.CreateObject("Crossoft.QuickTable")
-oQTable.sort = False
-
-Dim oRs
-Set oRs = Server.CreateObject("ADODB.Recordset")
-oRs.CursorType = adOpenStatic
-
-Dim sSql : sSql = "SELECT CategoryID, CategoryName, Description FROM dbo.Categories"
-Call oRs.Open(sSql, DefaultDatabase)
-
-Set oQTable.adors = oRs
-Set oRs = Nothing
-%>
 
 <div class="wrapper">
   <main class="main">
     <section class="section--main">
       <!-- main page content -->
       <%
-      With oQTable
-        .build
-      End With
+      Call InsertCategoriesTable()
       %>
     </section>
   </main>
 </div>
 
 <%
-Set oQTable = Nothing
+Sub InsertCategoriesTable()
+	Dim oQTable : Set oQTable = Server.CreateObject("Crossoft.QuickTable")
+  oQTable.sort = False
+
+  Dim oRs
+  Set oRs = Server.CreateObject("ADODB.Recordset")
+  oRs.CursorType = adOpenStatic
+
+  Dim sSql : sSql = "SELECT CategoryID, CategoryName, Description FROM dbo.Categories"
+  Call oRs.Open(sSql, DefaultDatabase)
+
+  Set oQTable.adors = oRs
+  Set oRs = Nothing
+
+  With oQTable
+    .build
+  End With
+
+	Set oQTable = Nothing
+End Sub
 %>
 
 <%
