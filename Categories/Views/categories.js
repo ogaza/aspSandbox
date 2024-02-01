@@ -1,4 +1,4 @@
-document.querySelector(".section--main").textContent = "...loading";
+// document.querySelector(".section--main").textContent = "...loading";
 
 getData();
 
