@@ -1,41 +1,19 @@
-<%
-Dim wswebsitename : wswebsitename = "aspSandBox"
-' Dim wswebsitename : wswebsitename = VERRA-WS-DEV01
-Dim server_ : server_ = "localhost"
-' Dim server = emregqa-usw-app
+<title>Sql Virtual Directory</title>
 
-' Dim vhost
-Dim vhost : Set vhost = Server.CreateObject("SQLVDir.SQLVDirControl")
-' Dim vhost : Set vhost = Server.CreateObject("SQLVDir.SQLVDirControl.3.0")
-
-' vhost.Connect server, vhostId
-' vhost.Disconnect
-
-Set vhost = Nothing
-
-Response.Write(server_)
-
-%>
+<!--#include virtual="/Auth/Services/ApxSecurity.inc.asp"-->
+<!--#include virtual="/Auth/Services/Authservice.asp"-->
 
 <%
-
-Function GetSiteID(SiteName )
-    Set objWebService = GetObject( "IIS://localhost/W3SVC" )
-
-    Dim objWebServer, objWebServerRoot, strBindings
-
-    GetSiteID = 0
-    FOR EACH objWebServer IN objWebService
-        IF objWebserver.Class = "IIsWebServer" THEN
-        SET objWebServerRoot = GetObject(objWebServer.adspath & "/root")
-            
-		if (SiteName  = objWebServer.ServerComment) THEN
-			GetSiteID = objWebserver.Name
-			Exit FUNCTION
-		End if
-        END IF
-    NEXT
-
-End Function 
-
+RedirectIfNotLoggedIn
 %>
+
+<!--#include virtual="/Views/Common/myPageHeader.asp"-->
+
+<div class="wrapper">
+  <main class="main">
+    <section class="section--main">
+      <!-- main page content -->
+      Sql Virtual Directory
+    </section>
+  </main>
+</div>

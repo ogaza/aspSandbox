@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:sql="urn:schemas-microsoft-com:xml-sql">
+	<sql:header>
+  <sql:param name="id"></sql:param>
+  </sql:header>
+  <sql:query>
+    SELECT 
+      * 
+    FROM 
+      AccountStatus
+    WHERE 
+      accountStatusId = @id
+    FOR 
+      XML auto
+  </sql:query>
+</root>
