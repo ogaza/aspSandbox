@@ -1,0 +1,98 @@
+<body>
+  <h2>Chapter 4</h2>
+
+  <h3>HOSTING SERVICE RECOMMENDATIONS</h3>
+
+  <p>
+    Every site gets its own application pool Windows domain accounts are used.
+    Content is stored on a remote (UNC) share on a Storage Area Network (SAN) or
+    other storage device.
+  </p>
+
+  <h3>Directory Structure</h3>
+
+  <p>
+    Each site should have a content directory, a log directory, and a directory
+    for Request Tracing logs.
+  </p>
+  <ul style="list-style: none">
+    <li>content_root\sitename (e.g., e:\content\Site1)</li>
+    <li>content_root\sitename\wwwroot (e.g., e:\content\site1\wwwroot)</li>
+    <li>
+      content_root\sitename\logs\logfiles (e.g., e:\content\site1\
+      logs\logfiles)
+    </li>
+    <li>
+      content_root\sitename\logs\failedReqLogFiles (e.g., e:\
+      content\site1\logs\failedReqLogFiles)
+    </li>
+  </ul>
+
+  <p>
+    The icacls.exe utility, available in several Microsoft resource kits,
+    enables you to create this structure and assign the NTFS permissions using
+    the following batch file (HostingFolders.bat):
+  </p>
+
+  <code>
+    <ul style="list-style: none">
+      <li>SETLOCAL</li>
+      <li>REM Save command-line arguments passed as parameters:</li>
+      <li>SET SITE_ID=%1%</li>
+      <li>SET CONTENT_ROOT=%2</li>
+    </ul>
+    <ul style="list-style: none">
+      <li>md %CONTENT_ROOT%\site%SITE_ID%</li>
+      <li>md %CONTENT_ROOT%\site%SITE_ID%\logs</li>
+      <li>REM ACL SITE DIRECTORY FOR ADMINS AND the APPPOOL ACCOUNT</li>
+      <li>icacls %CONTENT_ROOT%\site%SITE_ID% /G {DomainName}\PoolId%1:R /y</li>
+      <li>icacls %CONTENT_ROOT%\site%SITE_ID% /E /G Administrators:F</li>
+    </ul>
+    <ul style="list-style: none">
+      <li>REM CREATING FAILED REQUEST LOG DIRECTORY</li>
+      <li>md %CONTENT_ROOT%\site%SITE_ID%\logs\failedReqLogfiles</li>
+      <li>
+        icacls %CONTENT_ROOT%\site%SITE_ID%\logs\failedReqLogfiles /G
+        {DomainName}\PoolId%1:F /y
+      </li>
+      <li>
+        icacls %CONTENT_ROOT%\site%SITE_ID%\logs\failedReqLogfiles /E /G
+        Administrators:F
+      </li>
+    </ul>
+    <ul style="list-style: none">
+      <li>REM CREATING WEBLOG DIRECTORY. HTTP.SYS LOGS AS MACHINE IDENTITY</li>
+      <li>md %CONTENT_ROOT%\site%SITE_ID%\logs\logfiles</li>
+      <li>
+        icacls %CONTENT_ROOT%\site%SITE_ID%\logs\logfiles /G
+        {DomainName}\{MachineIdentity}:F /y
+      </li>
+      <li>
+        icacls %CONTENT_ROOT%\site%SITE_ID%\logs\logfiles /E /G Administrators:F
+      </li>
+    </ul>
+    <ul style="list-style: none">
+      <li>REM CREATING WEB CONTENT DIRECTORY</li>
+      <li>md %CONTENT_ROOT%\site%SITE_ID%\wwwroot</li>
+      <li>
+        icacls %CONTENT_ROOT%\site%SITE_ID%\wwwroot /G {DomainName}\PoolId%1:F
+        /y
+      </li>
+      <li>
+        icacls %CONTENT_ROOT%\site%SITE_ID%\wwwroot /E /G Administrators:F
+      </li>
+    </ul>
+  </code>
+
+  <p>
+    Replace {DomainName} with your domain's name, and {MachineIdentity} with
+    your server's machine identity under which Http.sys will run. Launch this
+    batch file on the content server with the parameters of site ID and content
+    root folder.
+  </p>
+  <p>
+    User Accounts with a naming scheme of DOMAIN\MACHINES are so-called
+    machine-accounts and represent the named machine within that domain. Those
+    accounts are created when you join that computer to a domain.
+  </p>
+</body>
