@@ -36,6 +36,7 @@ Const COMPANY_NAME_LABEL = "Company Name"
 Const COMPANY_EMAIL_LABEL = "Company Email"
 Const COMPANY_ZIP_LABEL = "Company ZIP Code"
 Const COMPANY_IS_NICE_LABEL = "Company Is Nice"
+Const TEST_LABEL = "Test field"
 
 Dim m_sCompanyName
 Dim m_sCompanyNiceness
@@ -45,11 +46,22 @@ Dim emailMaxLength : emailMaxLength = 12
 Dim m_sCompanyZip
 Dim zipMaxLength : zipMaxLength = 8
 
+Dim m_iTestCount : m_iTestCount = 0
+Dim m_sTest
+Dim m_sTestArray
+
 m_sCompanyName = Request.Form("companyName")
 m_sCompanyNiceness = Request.Form("companyNiceness")
 m_sCompanyIsNice = m_sCompanyNiceness = "on"
 m_sCompanyEmail = trim(Request.Form("companyEmail"))
 m_sCompanyZip = trim(Request.Form("companyZip"))
+
+If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
+  m_sTest = Request.Form("test")
+  m_sTestArray = Split(m_sTest, ", ")
+Else
+  m_sTestArray = Split(",,,,", ",")
+End If
 %>
 
 <!-- content wrapper -->
@@ -71,6 +83,7 @@ m_sCompanyZip = trim(Request.Form("companyZip"))
 If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
   ' post summary
   PrintPOSTSummary
+  PrintTestFieldPOSTSummary
 
   Dim validationResults
   validationResults = Array(ValidateEmail, ValidateZip)
@@ -193,7 +206,6 @@ Sub PrintPOSTSummary()
   WriteFormFieldValue COMPANY_NAME_LABEL, m_sCompanyName
   WriteFormFieldValue COMPANY_EMAIL_LABEL, m_sCompanyEmail
   WriteFormFieldValue COMPANY_ZIP_LABEL, m_sCompanyZip
-  WriteFormFieldValue COMPANY_IS_NICE_LABEL, m_sCompanyIsNice
 End Sub
 
 Sub WriteFormFieldValue(fieldName, fieldValue)
@@ -206,7 +218,36 @@ Sub WriteInDiv(text)
   Response.Write("<div>")
   Response.Write(text)
   Response.Write("</div>")
-End Sub 
+End Sub
 
- %>
+Sub PrintTestFieldPOSTSummary() 
+
+  Dim maxNumberOfTestInputs : maxNumberOfTestInputs = 2
+  If UBound(m_sTestArray) > maxNumberOfTestInputs Then
+    Response.Write("<div>")
+    Response.Write("Too many inputs. The max number is: " & maxNumberOfTestInputs)
+    Response.Write("</div>")
+  End If
+
+  Response.Write("<div>")
+  Response.Write("m_sTestArray size: " & m_iTestCount)
+  Response.Write("</div>")
+  Response.Write("<div>")
+  Response.Write("Ubound m_sTestArray: " & UBound(m_sTestArray))
+  Response.Write("</div>")
+
+  Response.Write("<div>")
+  Response.Write("Whole " & TEST_LABEL & ": " & m_sTest)
+  Response.Write("</div>")
+
+  Dim i
+  For i = LBound(m_sTestArray) To UBound(m_sTestArray)
+    Response.Write("<div>")
+    Response.Write(TEST_LABEL & " " & i & ": " & CStr(m_sTestArray(i)))
+    Response.Write("</div>")
+  Next
+End Sub
+
+
+%>
 
