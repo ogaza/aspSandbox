@@ -71,21 +71,29 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
   ' post summary
   PrintPOSTSummary
 
-  Dim validationResults
-  validationResults = Array(ValidateEmail, ValidateZip)
-
   WriteInDiv "VALIDATION RESULT:"
   Dim validationResult
-  Dim i
-  For i = 0 To UBound(validationResults)
-    validationResult = validationResults(i)
-    Dim fieldName : fieldName = validationResult(0)
-    Dim fieldLabel : fieldLabel = validationResult(1)
-    Dim errors : errors = validationResult(2)
-    ' print validation results as html
-    RenderFieldValidationResult fieldName, fieldLabel, errors
-  Next
+  Dim fieldName
+  Dim fieldLabel
+  Dim errors
+ 
+  validationResult = ValidateEmail
+  fieldName = validationResult(0)
+  fieldLabel = validationResult(1)
+  errors = validationResult(2)
+  ' print validation results as html
+  RenderFieldValidationResult fieldName, fieldLabel, errors
+  RenderScriptWithFieldValidationResult fieldName, errors
 
+  validationResult = ValidateZip
+  fieldName = validationResult(0)
+  fieldLabel = validationResult(1)
+  errors = validationResult(2)
+  ' print validation results as html
+  RenderFieldValidationResult fieldName, fieldLabel, errors
+  RenderScriptWithFieldValidationResult fieldName, errors
+
+  RenderScriptWhichMarksInvalidFormFields
 End If
 
 Function ValidateEmail()
