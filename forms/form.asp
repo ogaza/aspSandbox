@@ -1,17 +1,4 @@
 <%
-Sub RenderChkBox(name, label, isChecked)
-%>
-  <label for="<%=name%>"><%=label%></label>
-  <% If(isChecked) Then %>
-  <input type="checkbox" id="<%=name%>" name="<%=name%>" checked />
-  <% Else %>
-  <input type="checkbox" id="<%=name%>" name="<%=name%>" />
-  <% 
-  End If
-End Sub
-%>
-
-<%
 Sub RenderForm 
 %>
 <div class="form-container">
@@ -33,9 +20,6 @@ Sub RenderForm
     <fieldset>
       <% RenderChkBox "companyNiceness", COMPANY_IS_NICE_LABEL, m_sCompanyIsNice %>
     </fieldset>
-    <%
-      RenderFieldWithMultipleSameInputs 
-    %>
     <fieldset>
       <button type="submit">submit</button>
     </fieldset>
@@ -46,27 +30,14 @@ End Sub
 %>
 
 <%
-Sub RenderFieldWithMultipleSameInputs 
+Sub RenderChkBox(name, label, isChecked)
 %>
-  <fieldset>
-    <label for="testCount"><%=TEST_LABEL%> count</label>
-    <input 
-      type="number" 
-      name="testCount" 
-      value="<%=m_iTestCount%>" 
-      min="0" disabled />
-  </fieldset>
-  <%
-  %>
-  <% Dim i %>
-  <% For i = LBound(m_sTestArray) To UBound(m_sTestArray) %>
-  <fieldset>
-    <label for="test"><%=i + 1%></label>
-    <input type="text" name="test" value="<%=m_sTestArray(i)%>" />
-  </fieldset>
-  <% Next %>
-<%
+  <label for="<%=name%>"><%=label%></label>
+  <% If(isChecked) Then %>
+  <input type="checkbox" id="<%=name%>" name="<%=name%>" checked />
+  <% Else %>
+  <input type="checkbox" id="<%=name%>" name="<%=name%>" />
+  <% 
+  End If
 End Sub
 %>
-
-
