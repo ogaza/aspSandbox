@@ -7,7 +7,7 @@ Function ValidateForm()
   sErrMsg = ""
 
   Dim sValidEmailErrorMessage, bValidEmail
-  bValidEmail = iUtils_valiEmail(m_sCompanyEmail, sValidEmailErrorMessage)
+  bValidEmail = iUtils_validEmail(m_sCompanyEmail, sValidEmailErrorMessage)
   If Not bValidEmail Then
     If (sValidEmailErrorMessage <> "") Then
       sErrMsg = sErrMsg & _
@@ -55,7 +55,7 @@ Function EmailHasValidFormat(email)
   EmailHasValidFormat = False
 
   Dim bValidEmail
-  ' bValidEmail = iUtils_valiEmail(email)
+  ' bValidEmail = iUtils_validEmail(email)
 
   Dim rex
   Set rex = new regexp
@@ -70,12 +70,12 @@ Function EmailHasValidFormat(email)
 End Function
 
 '======================================================================================
-'  function:  iUtils_valiEmail
+'  function:  iUtils_validEmail
 '  validate an email address's format
 '  Task 59271: DEV VERRA- Email Address Validation for Invalid Characters
 '======================================================================================
-function iUtils_valiEmail(email, errMsg)
-  iUtils_valiEmail = True
+function iUtils_validEmail(email, errMsg)
+  iUtils_validEmail = True
   errMsg = ""
 
   Dim AllEmptyEmail
@@ -85,7 +85,7 @@ function iUtils_valiEmail(email, errMsg)
   email = rtrim(ltrim(email))
 
   if( email = "") then
-    iUtils_valiEmail = False
+    iUtils_validEmail = False
     exit function
   else
     Dim eArr, e1
@@ -96,7 +96,7 @@ function iUtils_valiEmail(email, errMsg)
         checkEmail = iUtils_valid_1_Email(e1, errMsg)
         If (checkEmail = False) Then
           errMsg = "incorrect format"
-          iUtils_valiEmail = False
+          iUtils_validEmail = False
           exit function
         End If
       End If
@@ -105,7 +105,7 @@ function iUtils_valiEmail(email, errMsg)
 
   if AllEmptyEmail then
     errMsg = "Empty Email"
-    iUtils_valiEmail = False
+    iUtils_validEmail = False
     exit function
   end if
 end function
