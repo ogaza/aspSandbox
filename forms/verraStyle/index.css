@@ -1,0 +1,57 @@
+/* [name="example-form"] {
+  
+} */
+
+.form-container {
+  margin: auto;
+  width: 50%;
+}
+
+.form-container fieldset {
+  width: 100%;
+  border: none;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 8px;
+}
+
+.form-container fieldset:last-child {
+  display: block;
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+fieldset {
+  margin: 0;
+  padding: 0;
+  position: relative;
+}
+
+fieldset :first-child {
+  text-align: right;
+}
+
+input[type="checkbox"] {
+  width: 16px;
+  height: 16px;
+
+  margin: 0;
+}
+
+fieldset.invalid input:focus {
+  transition: box-shadow 0.3s;
+  box-shadow: 0 0 8px red;
+}
+
+fieldset.invalid::after {
+  position: absolute;
+  left: 0;
+
+  content: "*";
+  color: red;
+}
