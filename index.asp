@@ -19,6 +19,23 @@
     <section class="section--main">
       <!-- main page content here -->
       <div>Main page</div>
+      <div>Session Id:</div>
+      <div>
+        <%
+        Response.Write(Session.SessionID)
+        %>
+      </div>
+      <div>
+        <%
+        dim i
+        dim sessionContentsCount
+        sessionContentsCount = Session.Contents.Count
+        Response.Write("Session variables: " & j)
+        For i = 1 to sessionContentsCount
+          Response.Write(Session.Contents(i) & "<br>")
+        Next
+        %>
+      </div>
     </section>
   </main>
 </div>
