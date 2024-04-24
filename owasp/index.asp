@@ -50,10 +50,15 @@
 
         <div class="row">
           <div>
-            Text as plain html
+            <code>
+              Text
+            </code>
+            as plain html
           </div>
           <div>
-            Reform.HTMLEncode(Text)
+            <code>
+              Reform.HTMLEncode(Text)
+            </code>
           </div>
         </div>
 
