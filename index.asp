@@ -1,5 +1,6 @@
 <title>ASP Sandbox</title>
 <!-- links to js and css shoul be at the top in order for them to be placed in the head by the browser-->
+<link rel="stylesheet" href="owasp.css" />
 <!-- end of links -->
 
 <!-- includes for asp with code here -->

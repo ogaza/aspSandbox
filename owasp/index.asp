@@ -1,5 +1,10 @@
+
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>OWASP Sandbox</title>
 <!-- links to js and css shoul be at the top in order for them to be placed in the head by the browser-->
+<link rel="stylesheet" href="../views/styles/normalize.css" />
+<link rel="stylesheet" href="owasp.css" />
+
 <!-- end of links -->
 
 <!-- includes for asp with code here -->
@@ -34,14 +39,44 @@
         ' ResponseWriteUnsafe ("</script>")
         %>
       </div>
+
+      <div class="divider-64">
+      </div>
+
       <div>
         <%
         Dim msg : msg = "<font face='arial' size=2 color='#ff0000'>some message here</font>"
         %>
-        <%=msg%>
-        <%=Reform.HTMLEncode(msg)%>
+
+        <div class="row">
+          <div>
+            Text as plain html
+          </div>
+          <div>
+            Reform.HTMLEncode(Text)
+          </div>
+        </div>
+
+        <div class="divider">
+        </div>
+        
+        <div class="row">
+          <div>
+            <%=msg%>
+          </div>
+          <div>
+            <%=Reform.HTMLEncode(msg)%>
+          </div>
+        </div>
       </div>
+
+      <div class="divider-64">
+      </div>
+
       <div>
+        <div>
+          Form with a hidden FormCsrfHiddenInput
+        </div>
         <form method="post" id=form1 name=form1 onSubmit="" accept-charset="UTF-8">
           <% FormCsrfHiddenInput %>
           <input type="text">
