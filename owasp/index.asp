@@ -25,21 +25,6 @@
       <!-- main page content here -->
       <div>Main page</div>
 
-      <div>
-        <%
-        ' the following code will display alert modal 
-        ' Response.Write("<script language='javascript'>alert('test')</script>")
-        ' Reform.HTMLEncode will change the script tag into regular string 
-        ' Response.Write(Reform.HTMLEncode("<script language='javascript'></script>"))
-        
-        ' Dim m_sError : m_sError = "error message"
-        ' ResponseWriteUnsafe ("<script language=""javascript"">")
-        ' ResponseWriteUnsafe ("window.history.back();")
-        ' ResponseWriteUnsafe ("alert(""" & Reform.JsString(m_sError) & """);")
-        ' ResponseWriteUnsafe ("</script>")
-        %>
-      </div>
-
       <div class="divider-64">
       </div>
 
@@ -70,23 +55,57 @@
             <%=msg%>
           </div>
           <div>
+            <!--
+            here we can see how Reform.HTMLEncode can break the desired behaviour
+            do not use it if you actually want to generate html
+             -->
             <%=Reform.HTMLEncode(msg)%>
+          </div>
+        </div>
+
+        <div class="row">
+          <div>
+            <!--
+            here we can see an example of basic script injection
+             -->
+            <%
+            Dim m_sAction : m_sAction = "<script language='javascript'>console.log('m_sAction')</script>"
+            ' Dim m_sAction : m_sAction = "<script language='javascript'>alert('test')</script>"
+            Response.Write("""" & m_sAction & """ is an unknown Action!")
+            %>
+          </div>
+          <div>
+            <!--
+            and here we can see how Reform.HtmlEncode prevents a basic script injection
+             -->
+            <%
+            ResponseWriteUnsafe("""" & Reform.HtmlEncode(m_sAction) & """ is an unknown Action!")
+            %>
+          </div>
+        </div>
+
+        <div class="row">
+          <%
+          Dim company_info(1)
+          company_info(0) = "<script language='javascript'>console.log('company_info')</script>"
+          company_info(1) = "just regular text"
+          %>
+          <!--
+            here we can see another example of basic script injection
+            its almost the same as the previous one
+            but here we are using a local variable in form of table
+          -->
+          <div>
+            <%=company_info(0)%>
+            <%=company_info(1)%>
+          </div>
+          <div>
+            <%=Reform.HtmlEncode(company_info(0))%>
+            <%=Reform.HtmlEncode(company_info(1))%>
           </div>
         </div>
       </div>
 
-      <div class="divider-64">
-      </div>
-
-      <div>
-        <div>
-          Form with a hidden FormCsrfHiddenInput
-        </div>
-        <form method="post" id=form1 name=form1 onSubmit="" accept-charset="UTF-8">
-          <% FormCsrfHiddenInput %>
-          <input type="text">
-        </form>
-      </div>
     </section>
   </main>
 </div>
