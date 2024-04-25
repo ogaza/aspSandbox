@@ -29,6 +29,15 @@
       </div>
 
       <div>
+        <a href="https://cheatsheetseries.owasp.org/cheatsheets/Cross_Site_Scripting_Prevention_Cheat_Sheet.html">
+          OWASP - Cross Site Scripting Prevention Cheat Sheet
+        </a>
+      </div>
+
+      <div class="divider-64">
+      </div>
+
+      <div>
         <%
         Dim msg : msg = "<font face='arial' size=2 color='#ff0000'>some message here</font>"
         %>
