@@ -115,6 +115,24 @@
         </div>
       </div>
 
+      
+      <%
+      Dim m_link, paramOne, paramTwo
+      paramOne = "/> <script language='javascript'>alert('injected')</script>"
+      ' paramOne = "one"
+      paramTwo = "two"
+
+      m_link = "/owasp/jsinjection/onClickInject.asp?action=none&paramOne=" & paramOne & "&paramTwo=" & paramTwo
+      %>
+      <div class="row">
+        <div>
+          <a href=<%=m_link%>>link</a>
+        </div>
+        <div>
+          <a href=<%=Reform.HtmlAttributeEncode(m_link)%>>html attribute encoded link</a>
+        </div>
+      </div>
+
     </section>
   </main>
 </div>
