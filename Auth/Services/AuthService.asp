@@ -25,7 +25,7 @@ End Function
 
 Sub RedirectIfNotLoggedIn
   If Not IsLoogedIn() Then
-    Dim requestedUrl : requestedUrl = Request.ServerVariables("URL")
+    Dim requestedUrl : requestedUrl = Server.URLEncode(Request.ServerVariables("URL"))
     Response.Redirect("/Auth/Views/LoginForm/LoginForm.asp?url=" & requestedUrl)
     Response.End
   End If
