@@ -49,6 +49,15 @@ CheckCSRF
         action="/owasp/forms/formAction.asp?id=<%=encodedId%>"
       >
         <% FormCsrfHiddenInput %>
+
+        <%
+        Dim m_sPhase : m_sPhase = "test"
+        Dim hiddenIptId : hiddenIptId = "SomeId"
+        %>
+
+        <input type="hidden" name="m_sPhase" value="<%=Reform.HtmlAttributeEncode((m_sPhase))%>" />
+        <input type="hidden" id="idOf<%=Reform.HtmlAttributeEncode(hiddenIptId)%>" />
+
         <input type="text" name="inpt" class="form-input" />
         <input type="text" name="inpt" class="form-input" />
         <input

@@ -96,9 +96,25 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
 
 </script>
 <%
+  ' type 
+  ' '/> <script language='javascript'>alert()</script>
+  ' to any input
+  ' to inject a script through the following asp code:
   For i = 1 To Request.Form("inpt").Count
-    Response.Write("<div>" & Request.Form("inpt")(i) & "</div>")
+    ' Response.Write("<div>" & Request.Form("inpt")(i) & "</div>")
+    
   Next
+  ' checking if some experssions used in verra are unsafe
+  ' for example FormatNumber seems to be safe 
+  ' and there is no need to wrap it with one on the Reform functions
+  ' on the other hand Replace(Replace( ... is not safe
+  Dim someNumber : someNumber = Reform.HtmlEncode(Replace(Replace(Replace(Replace(Replace(Replace(Request.Form("inpt")(1),"_x0020_"," "), "_x002C_", ","), "_x002F_", "/"), "_x0023_", ""), "_x0028_", "("), "_x0029_", ")"))
+  ' Dim someNumber : someNumber = FormatNumber(Request.Form("inpt")(1))
+  Response.Write("<div>" & someNumber & "</div>")
+
+  ' TODO:
+  ' maybe we should use Server.URLEncode(...)
+  ' for attributes like href?
 %>
 <%
   ' Response.Redirect("/Categories/Views/")
