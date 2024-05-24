@@ -173,6 +173,9 @@ Sub ExecuteSqlTest
   Rs.Close
   oConn.Close
 
+  Set oRs = Nothing
+  Set oConn = Nothing
+
 %>
   <div class="row">
     <div>
