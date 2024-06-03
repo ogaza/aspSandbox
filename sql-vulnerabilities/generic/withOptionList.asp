@@ -61,6 +61,10 @@ Sub GetRecordsAndGenerateSelect()
   Dim recordsArray 
   recordsArray = GetRecords()
 
+  ' Dim selectedItems
+
+  ' Response.Write("is null : " & IsNull(selectedItems) )
+  ' Response.Write("is empty : " & IsEmpty(selectedItems) )
   Dim selectedItems(1)
   selectedItems(0) = "1424"
   selectedItems(1) = "1519"
@@ -74,8 +78,8 @@ Function GetRecords()
   oConn.Open(VerraPreDatabase)
 
 
-  Dim sql : sql = GetAccountHoldersQuery()
-  Dim cmd : Set cmd = PrepareCommand(sql)
+  Dim sql : sql = GetAccountHolderSqlQuery()
+  Dim cmd : Set cmd = PrepareGetAccountHoldersCommand(sql)
   cmd.ActiveConnection = oConn
 
   Dim oRs
@@ -141,7 +145,7 @@ End Sub
 %>
 
 <%
-Function PrepareCommand(sql)
+Function PrepareGetAccountHoldersCommand(sql)
   Dim cmd 
   Set cmd = Server.CreateObject("ADODB.Command")
   
@@ -154,15 +158,15 @@ Function PrepareCommand(sql)
   atTypes = ACCOUNT_TYPE_CODE_ACCT_HOLDER & "," & ACCOUNT_TYPE_CODE_RETAIL_AGGREAGTOR & "," & ACCOUNT_TYPE_CODE_END_USER
   cmd.Parameters.Append cmd.CreateParameter( , adVarChar, adParamInput, 500, atTypes)
 
-  Set PrepareCommand = cmd
+  Set PrepareGetAccountHoldersCommand = cmd
 End Function
 %>
 
-<%
-Function GetAccountHoldersQuery()
+<%  
+Function GetAccountHolderSqlQuery()
   Dim sSql 
 
-  sSQL = _
+  sSql = _
         "DECLARE @ahIDOwner         INT = ? ; " & vbCrLf &_
         "DECLARE @code_ACTIVE   CHAR(3) = ? ; " & vbCrLf &_
         "DECLARE @atTypes NVARCHAR(200) = ? ; " & vbCrLf &_
@@ -185,12 +189,17 @@ Function GetAccountHoldersQuery()
         "ORDER BY  " & vbCrLf &_
         "  ahName ; "
 
-  GetAccountHoldersQuery = sSql
+  GetAccountHolderSqlQuery = sSql
 End Function
 %>
 
 <%
 Function in_array(elem, array)
+  If IsEmpty(array) Or IsNull(array) Then
+    in_array = False
+    Exit Function
+  End If
+
   in_array = False
   elem = trim(elem)
   Dim idx : idx = 0
