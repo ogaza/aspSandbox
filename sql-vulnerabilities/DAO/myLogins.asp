@@ -347,4 +347,40 @@ Function mylogins__selectHavingRecLogins(loginId, ahId, privilegeType, errorMsg)
 
   mylogins__selectHavingRecLogins = arr
 End Function
+
+Function myLogins__update(loginId, loginName, errMsg)
+
+  myLogins__update = False
+
+  Dim oRs, sSql, oCom
+
+  sSql = "SELECT * FROM myLogins WHERE LoginId = ?"
+
+  Set oCom = Server.CreateObject("ADODB.Command")
+  oCom.CommandType = adCmdText
+  oCom.ActiveConnection = TagDB
+  oCom.CommandText = sSql
+
+  oCom.Parameters.Append oCom.CreateParameter( , adInteger, adParamInput, , loginId)
+
+  Set oRs = Server.CreateObject("ADODB.Recordset")
+  On Error Resume Next
+  oRs.Open oCom, , adOpenKeyset, adOpenDynamic 
+  ' Call oRs.Open("SELECT * FROM myLogins WHERE LoginId = " & m_iLoginId, TagDB, adOpenKeyset, adOpenDynamic)
+
+  oRs.Fields("LoginName") = loginName
+  
+  oRs.Update()
+  On Error goto 0
+
+  If (TagDB.Errors.Count) Then
+    errMsg = TagDB.Errors.Item(0).Description
+    Exit Function
+  End If
+
+  oRs.Close()
+  Set oRs =  Nothing
+
+  myLogins__update = True  
+End Function
 %>
