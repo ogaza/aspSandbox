@@ -9,6 +9,7 @@
 <!--#include virtual="/Auth/Services/Authservice.asp"-->
 <!--#include virtual="/DB/iDBPointer.asp"-->
 <!--#include virtual="/DB/iDB.asp"-->
+<!--#include virtual="/sql-vulnerabilities/DAO/myLogins.asp"-->
 
 <!-- end of asp includes -->
 
@@ -25,9 +26,11 @@ Dim TagDB
 Set TagDB = Server.CreateObject("ADODB.Connection")
 TagDB.Open(VerraLocalDatabase)
 
-Dim result 
-result = myLoginPrivileges__insert(2, True, True, True)
-Response.Write("myLoginPrivileges__insert result: " & result & "</br>")
+mylogins__selectHavingRecLogins  1, 1, 1, ""
+
+' Dim result 
+' result = myLoginPrivileges__insert(2, True, True, True)
+' Response.Write("myLoginPrivileges__insert result: " & result & "</br>")
 
 ' Dim result 
 ' result = RecLogin__insert(1,1)

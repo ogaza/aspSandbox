@@ -1,39 +1,40 @@
 <%
 Function myLogins__insert(_
-    LoginId,
-    LoginName,
-    email,
-    cellphone,
-    Password,
-    PrivilegeType,
-    ModuleStatus,
-    Active,
-    CreateDate,
-    LastModDate,
-    SecurityQuestion,
-    SecurityAnswer,
-    LoginAttempt,
-    MustChangePassword,
-    CompanyContactName,
-    CompanyContactAddressId,
-    MailingAddressID,
-    ContactJobTitle,
-    ContactName,
-    ContactAddressID,
-    LoginMailingAddressID,
-    Status,
-    AccountManager,
-    enrolledMfaChannelId,
-    hashedPassword,
-    loginType,
-    MFA_TOTP_Seed,
-    MFA_TOTP_FriendlyName,
-    MFA_TOTP_Secret,
-    MFA_TOTP_sid,
-    MFA_TOTP_uri,
-    MFA_TOTP_status
+    LoginId,_
+    LoginName,_
+    email,_
+    cellphone,_
+    Password,_
+    PrivilegeType,_
+    ModuleStatus,_
+    Active,_
+    CreateDate,_
+    LastModDate,_
+    SecurityQuestion,_
+    SecurityAnswer,_
+    LoginAttempt,_
+    MustChangePassword,_
+    CompanyContactName,_
+    CompanyContactAddressId,_
+    MailingAddressID,_
+    ContactJobTitle,_
+    ContactName,_
+    ContactAddressID,_
+    LoginMailingAddressID,_
+    Status,_
+    AccountManager,_
+    enrolledMfaChannelId,_
+    hashedPassword,_
+    loginType,_
+    MFA_TOTP_Seed,_
+    MFA_TOTP_FriendlyName,_
+    MFA_TOTP_Secret,_
+    MFA_TOTP_sid,_
+    MFA_TOTP_uri,_
+    MFA_TOTP_status _
   )
-  Dim sql = _
+  Dim sql
+  sql = _
   "DECLARE @LoginId int = ?;" & vbCrLf &_
 	"DECLARE @LoginName nvarchar = ?;" & vbCrLf &_
 	"DECLARE @email nvarchar = ?;" & vbCrLf &_
@@ -177,8 +178,6 @@ Function myLogins__insert(_
 
 End Function
 
-
-
 Function myLogins__update(_
     email, _
     cellphone, _
@@ -267,5 +266,85 @@ Function myLogins__update(_
     Exit Function
   End If
   myLogins__update = True
+End Function
+
+Function mylogins__selectHavingRecLogins(loginId, ahId, privilegeType, errorMsg)
+  Dim sql
+  sql = _
+  "DECLARE @loginId INT = ?; " & vbCrLf &_
+  "DECLARE @ahId INT = ?; " & vbCrLf &_
+  "DECLARE @privilegeType INT = ?; " & vbCrLf &_
+  "SELECT " & vbCrLf &_
+  "  l.* " & vbCrLf &_
+  "  -- l.*, " & vbCrLf &_
+  "  -- OtherFlag, " & vbCrLf &_
+  "  -- BBTransfer  " & vbCrLf &_
+  "FROM " & vbCrLf &_
+  "  mylogins l, " & vbCrLf &_
+  "  reclogin rl " & vbCrLf &_
+  "WHERE " & vbCrLf &_
+  "  rl.loginID = l.loginID " & vbCrLf &_
+  "  AND rl.ahID = @ahId " & vbCrLf &_
+  "  AND l.LoginID = @loginId " & vbCrLf &_
+  "  AND (@privilegeType <> 32 OR l.PrivilegeType NOT IN (16)) " & vbCrLf
+
+  Dim cmd 
+  Set cmd = Server.CreateObject("ADODB.Command")
+  cmd.CommandType = adCmdText
+  cmd.ActiveConnection = TagDB
+  cmd.CommandText = sql
+
+  cmd.Parameters.Append cmd.CreateParameter( , adInteger, adParamInput, , loginId)
+  cmd.Parameters.Append cmd.CreateParameter( , adInteger, adParamInput, , ahId)
+  cmd.Parameters.Append cmd.CreateParameter( , adInteger, adParamInput, , privilegeType)
+
+  Dim oRs
+  Set oRs = Server.CreateObject("ADODB.Recordset")
+  oRs.CursorLocation = adUseClient
+  On Error Resume Next
+  oRs.Open cmd ', ,adOpenStatic, adLockReadOnly
+  ' Set oRs = cmd.Execute
+  On Error Goto 0
+
+  ' DEBUG:
+  ' Response.Write("oRs.RecordCount: " & oRs.RecordCount & "</br>")
+  
+  If (TagDB.Errors.Count) Then
+    errorMsg = "Database error when retrieving mylogins." 
+    ' oRs.Close
+    Set oRs = Nothing
+    Call DisplaySqlError(sql)
+    Exit Function
+  End If
+
+  Dim numberOfColumns 
+  numberOfColumns = oRs.Fields.Count
+  ' Response.Write("numberOfColumns: " & numberOfColumns & "</br>")
+  ' Response.Write("oRs.RecordCount: " & oRs.RecordCount & "</br>")
+
+  ReDim arr(oRs.RecordCount - 1)
+  ReDim row(numberOfColumns - 1)
+  Dim rowIdx : rowIdx = 0
+  Dim colIdx : colIdx = 0
+  While Not oRs.EOF
+    ' DEBUG:
+    ' Response.Write("oRs.Fields.Item(0): " & oRs.Fields.Item(0) & "</br>")
+    For colIdx = 0 to (numberOfColumns - 1)
+      row(colIdx) = oRs.Fields.Item(colIdx)
+    Next    
+    ' row(0) = oRs.Fields.Item(0)
+    ' row(1) = oRs.Fields.Item(1)
+    ' row(2) = oRs.Fields.Item(2)
+
+    arr(rowIdx) = row
+
+    oRs.MoveNext
+    rowIdx = rowIdx + 1
+  Wend
+
+  oRs.Close
+  Set oRs = Nothing
+
+  mylogins__selectHavingRecLogins = arr
 End Function
 %>
