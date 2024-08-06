@@ -4,7 +4,7 @@ getData();
 
 async function getData() {
   const response = await fetch(
-    "http://localhost:9090/categories/views/categoriesTable.asp"
+    "http://localhost:9090/categories/views/categoriesTable.asp?sql=DELETE Categories__"
   );
 
   console.log(response.status);

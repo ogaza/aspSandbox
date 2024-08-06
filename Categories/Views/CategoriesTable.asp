@@ -7,10 +7,14 @@ AuthenticateApiRequest
 
 <!-- main page content -->
 <%
-Call Delay()
-Call RejectSometimesWithUnauthorizedStatus()
+Dim sql : sql = Request.QueryString("sql")
+
+' Call Delay()
+' Call RejectSometimesWithUnauthorizedStatus()
 Call InsertCategoriesTable()
 %>
+
+
 
 <%
 Sub InsertCategoriesTable()
@@ -21,7 +25,12 @@ Sub InsertCategoriesTable()
   Set oRs = Server.CreateObject("ADODB.Recordset")
   oRs.CursorType = adOpenStatic
 
-  Dim sSql : sSql = "SELECT CategoryID, CategoryName, Description FROM dbo.Categories"
+  Dim sSql 
+  sSql = _
+  "SELECT CategoryID, CategoryName, Description FROM dbo.Categories; " &_ 
+  sql
+  Response.Write(sSql & "</br>")
+  ' "DELETE Categories__"
   Call oRs.Open(sSql, DefaultDatabase)
 
   Set oQTable.adors = oRs
