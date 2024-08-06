@@ -50,3 +50,9 @@ Thumbs.db
 *.mov
 *.wmv
 
+bin
+obj
+
+*.user
+
+packages
