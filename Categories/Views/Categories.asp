@@ -1,6 +1,7 @@
 <title>Categories List</title>
 <!-- links to js and css shoul be at the top in order for them to be placed in the head by the browser-->
-<script src="categories.js" defer type="module"></script>
+<script src="categories.js" defer></script>
+<!-- <script src="categories.js" defer type="module"></script> -->
 <link rel="stylesheet" href="spinner.css" />
 <!-- end of links -->
 

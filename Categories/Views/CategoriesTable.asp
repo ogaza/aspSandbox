@@ -7,7 +7,7 @@ AuthenticateApiRequest
 
 <!-- main page content -->
 <%
-' Call Delay()
+Call Delay()
 ' Call RejectSometimesWithUnauthorizedStatus()
 Call InsertCategoriesTable()
 %>
@@ -32,6 +32,8 @@ Sub InsertCategoriesTable()
   Set oRs = Nothing
 
   With oQTable
+    .recordsperpage = 2
+    .display.nav = true
     .build
   End With
 
