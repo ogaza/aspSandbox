@@ -1,11 +1,15 @@
 // document.querySelector(".section--main").textContent = "...loading";
 
+const urlToSafeSource =
+  "http://localhost:9090/sqlInjectionExample/categoriesTable_safe.asp?id=1";
+// this link has sql inside the id query string param - OR 1 = 1
+const urlToVulnerableSource =
+  "http://localhost:9090/sqlInjectionExample/categoriesTable_vulnerable.asp?id=1 OR 1 = 1";
+
 getData();
 
 async function getData() {
-  const response = await fetch(
-    "http://localhost:9090/categories/views/categoriesTable.asp"
-  );
+  const response = await fetch(urlToVulnerableSource);
 
   console.log(response.status);
 
