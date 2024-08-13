@@ -43,7 +43,7 @@
       </tr>
       <tr>
         <td>
-          token
+          CSRF_SECURITY_TOKEN
         </td>
         <td>
           <%=  token %>
@@ -51,7 +51,7 @@
       </tr>
       <tr>
         <td>
-          is logged in
+          APXLOGIN
         </td>
         <td>
           <%=  isLoggedIn %>
