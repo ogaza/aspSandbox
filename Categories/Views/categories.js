@@ -10,14 +10,14 @@ async function getData() {
   console.log(response.status);
 
   if (response.status >= 400) {
-    document.querySelector(".section--main").textContent =
+    document.querySelector(".table").textContent =
       "error when loading the categories table";
 
     return;
   }
 
   const responseHtml = await response.text();
-  document.querySelector(".section--main").innerHTML = responseHtml;
+  document.querySelector(".table").innerHTML = responseHtml;
 }
 
 async function submitform2(
