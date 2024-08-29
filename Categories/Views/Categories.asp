@@ -41,7 +41,7 @@ RedirectIfNotLoggedIn
   </main>
 </div>
 
-<template>
+<template id="search-template">
   <div class="search__popup">
     <div class="search__header">
       <div class="search__title">

@@ -1,11 +1,10 @@
 // document.querySelector(".section--main").textContent = "...loading";
 
 function showSearch() {
-  let temp = document.getElementsByTagName("template")[0];
-  let clon = temp.content.cloneNode(true);
-  // document.body.appendChild(clon);
+  let template = document.getElementById("search-template");
+  let clone = template.content.cloneNode(true);
 
-  document.querySelector(".search").replaceChildren(clon);
+  document.querySelector(".search").replaceChildren(clone);
 }
 function hideSearch() {
   document.querySelector(".search").replaceChildren();
