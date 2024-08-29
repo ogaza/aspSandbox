@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>List of categories</title>
+
+    <!-- 
+      defer means that the js file will be downloaded ater the whole DOM is ready
+      module enables using the import/export syntax
+     -->
+    <script src="index.js" defer type="module"></script>
+    <link rel="stylesheet" href="init.css" />
+    <link rel="stylesheet" href="page.css" />
+    <link rel="stylesheet" href="popup.css" />
+    <link rel="stylesheet" href="search.css" />
+  </head>
+  <body>
+    <div class="page">
+      <div class="page__header">
+        <div>
+          <button class="search__button">Search</button>
+        </div>
+      </div>
+      <div class="page__content"></div>
+      <div class="page__footer"></div>
+    </div>
+  </body>
+
+  <div class="popup-overlay">
+    <div class="popup">
+      <div class="popup__header">
+        <div class="popup__title">Search</div>
+        <div class="popup__close">
+          <div role="button" class="popup__button--close">+</div>
+        </div>
+      </div>
+      <div class="popup__content">
+        <div class="search">
+          <div class="search__fields">
+            <div class="search__field">
+              <div class="search__label">CategoryID:</div>
+              <div class="search__value">
+                <input type="text" value="" />
+              </div>
+            </div>
+            <div class="search__field">
+              <div class="search__label">Name:</div>
+              <div class="search__value">
+                <input type="text" value="" />
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</html>
