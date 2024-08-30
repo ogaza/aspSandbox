@@ -1,6 +1,6 @@
 .search__fields {
   display: grid;
-  gap: 0.25rem;
+  gap: 0.5rem;
 }
 
 .search__field {
@@ -11,5 +11,10 @@
 }
 
 .search__label {
+  font-weight: 600;
   text-align: end;
+}
+
+.search__value {
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
 }
