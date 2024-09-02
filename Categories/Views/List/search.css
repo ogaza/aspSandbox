@@ -1,3 +1,11 @@
+.search__button {
+  display: inline-block;
+  width: 28px;
+  height: 28px;
+  background-image: url("/images/search.svg");
+  cursor: pointer;
+}
+
 .search__fields {
   display: grid;
   gap: 0.5rem;

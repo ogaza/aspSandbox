@@ -1,6 +1,6 @@
 .page {
   display: grid;
-  grid-template-rows: 75px 1fr 50px;
+  grid-template-rows: 75px 42px 1fr 50px;
   grid-template-columns: 1fr;
 
   height: 100vh;
@@ -10,6 +10,12 @@
 .page__header {
   background-color: #057299;
   /* background-color: rgb(185, 133, 38); */
+}
+
+.page__navbar {
+  box-shadow: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075);
+
+  height: 34px;
 }
 
 .page__footer {
