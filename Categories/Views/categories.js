@@ -1,8 +1,8 @@
 // document.querySelector(".section--main").textContent = "...loading";
 
-getData();
+getCategoriesTable();
 
-async function getData() {
+async function getCategoriesTable() {
   const response = await fetch(
     "http://localhost:9090/categories/views/categoriesTable.asp"
   );

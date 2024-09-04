@@ -1,0 +1,84 @@
+.section--main {
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: center;
+}
+
+.spinner__container {
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 100%;
+
+  background-color: #353a3a75;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.spinner__container.hidden {
+  display: none;
+}
+
+.spinner {
+  width: 32px;
+  height: 32px;
+
+  border-radius: 50%;
+  border: 4px #057299 solid;
+  border-bottom-color: transparent;
+  border-right-color: transparent;
+
+  animation-name: rotate;
+  animation-duration: 0.7s;
+  animation-iteration-count: infinite;
+
+  display: flex;
+}
+
+.spinner__overlay {
+  background-color: transparent;
+  /* background-color: white; */
+
+  width: 50%;
+  height: 100%;
+
+  height: calc(40px + 8px);
+  width: calc(20px + 4px);
+
+  /* position: absolute; */
+  /* top: -8px;
+  left: -8px; */
+
+  transform-origin: 100% 50%;
+
+  animation-name: rotate2;
+  animation-duration: 2s;
+  animation-fill-mode: both;
+  animation-iteration-count: infinite;
+}
+
+@keyframes rotate {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes rotate2 {
+  from {
+    transform: rotate(-45deg);
+  }
+
+  50%,
+  75% {
+    transform: rotate(180deg);
+  }
+
+  to {
+    transform: rotate(315deg);
+  }
+}

@@ -1,0 +1,21 @@
+.categories {
+  position: relative;
+
+  margin: 1rem;
+}
+
+.categories__header {
+  background-color: #057299;
+  padding: 0.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+}
+
+.categories__table {
+  padding: 0.5rem;
+
+  display: flex;
+  justify-content: center;
+}

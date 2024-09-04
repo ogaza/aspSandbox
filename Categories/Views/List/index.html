@@ -14,14 +14,24 @@
   </head>
   <body>
     <div class="page">
-      <div class="page__header">
-        <a class="search__button"></a>
-      </div>
+      <div class="page__header"></div>
       <div class="page__navbar"></div>
-      <div class="page__content"></div>
+      <div class="page__content">
+        <div class="categories">
+          <div class="categories__header">
+            <a class="search__button"></a>
+          </div>
+          <div class="categories__table"></div>
+          <div class="spinner__container hidden">
+            <div class="spinner">
+              <div class="spinner__overlay"></div>
+            </div>
+          </div>
+        </div>
+      </div>
       <div class="page__footer"></div>
-      <div class="popup-overlay">
-        <div class="popup">
+      <div class="popup-overlay hidden">
+        <div class="popup hidden">
           <div class="popup__header">
             <div class="popup__title">Search</div>
             <div class="popup__close">
@@ -29,18 +39,18 @@
             </div>
           </div>
           <div class="popup__content">
-            <form class="search">
+            <form class="search__form">
               <div class="search__fields">
                 <div class="search__field">
                   <div class="search__label">CategoryID:</div>
                   <div class="search__value">
-                    <input type="text" value="" />
+                    <input type="text" name="CategoryID" value="" />
                   </div>
                 </div>
                 <div class="search__field">
                   <div class="search__label">Name:</div>
                   <div class="search__value">
-                    <input type="text" value="" />
+                    <input type="text" name="CategoryName" value="" />
                   </div>
                 </div>
               </div>
