@@ -9,6 +9,8 @@ submitSearchBtn.addEventListener("click", handleSearchSubmit);
 
 const searchParams = {};
 
+getCategoriesTable();
+
 function handleSearchSubmit(e) {
   e.preventDefault();
 
