@@ -1,9 +1,9 @@
-export function renderTable(tableContainer, responseHtml) {
+const quickTableContainer = document.querySelector(".categories__table");
+
+export function renderTable(responseHtml) {
   var range = document.createRange();
   var fragment = range.createContextualFragment(responseHtml);
-  tableContainer.replaceChildren(fragment);
-
-  // console.log(searchFields);
+  quickTableContainer.replaceChildren(fragment);
 }
 
 export function saveQuickTableParamsInForm(

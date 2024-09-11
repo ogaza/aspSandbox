@@ -1,8 +1,7 @@
 import { fetchCategoriesTable } from "./js/api.js";
 import {
-  buildRequestBodyFrom,
-  saveSearchParams,
-  searchParams
+  buildRequestBodyFromSearchParams,
+  onSubmitSearch
 } from "./js/search.js";
 import {
   buildRequestBodyFromQTable,
@@ -10,50 +9,41 @@ import {
   saveQuickTableParamsInForm
 } from "./js/table.js";
 import { showSpinner, hideSpinner } from "./js/spinner.js";
-import { hideSearchPopup, searchForm, submitSearchBtn } from "./js/popup.js";
-
-const quickTableContainer = document.querySelector(".categories__table");
-const submitform2__override = function (...args) {
-  saveQuickTableParamsInForm(...args);
-  getAndRenderQuickTable();
-};
+import { hideSearchPopup } from "./js/popup.js";
 
 getAndRenderQuickTable();
-
-submitSearchBtn.addEventListener("click", handleSearchSubmit);
+onSubmitSearch(handleSearchSubmit);
 
 async function getAndRenderQuickTable() {
   showSpinner();
-  let body =
-    buildRequestBodyFromQTable() + "&" + buildRequestBodyFrom(searchParams);
 
+  let body =
+    buildRequestBodyFromQTable() + "&" + buildRequestBodyFromSearchParams();
   const response = await fetchCategoriesTable(body);
 
+  hideSpinner();
+
   if (response.status >= 400) {
-    renderErrorMessage();
+    renderTable(getErrorMessage());
     return;
   }
 
-  const responseHtml = await response.text();
-
-  renderTable(quickTableContainer, responseHtml);
-
+  renderTable(await response.text());
   // override submitform2 function triggered by
   // the quickTable navigation
   submitform2 = submitform2__override;
-
-  hideSpinner();
 }
 
-function renderErrorMessage() {
-  quickTableContainer.textContent = "error when loading the categories table";
+function getErrorMessage() {
+  return "An error occured when loading the data.";
 }
 
-function handleSearchSubmit(e) {
-  e.preventDefault();
+function submitform2__override(...args) {
+  saveQuickTableParamsInForm(...args);
+  getAndRenderQuickTable();
+}
 
-  saveSearchParams(searchForm);
-
+function handleSearchSubmit() {
   hideSearchPopup();
   getAndRenderQuickTable();
 }
