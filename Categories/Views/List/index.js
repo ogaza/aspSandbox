@@ -9,9 +9,12 @@ import {
   saveQuickTableParamsInForm
 } from "./js/table.js";
 import { showSpinner, hideSpinner } from "./js/spinner.js";
-import { hideSearchPopup } from "./js/popup.js";
+import { hidePopup } from "./js/popup.js";
 
-getAndRenderQuickTable();
+await getAndRenderQuickTable();
+// after the first call for the table
+// render the search form
+buildSearchForm();
 onSubmitSearch(handleSearchSubmit);
 
 async function getAndRenderQuickTable() {
@@ -44,6 +47,41 @@ function submitform2__override(...args) {
 }
 
 function handleSearchSubmit() {
-  hideSearchPopup();
+  hidePopup();
   getAndRenderQuickTable();
+}
+
+//-----------------------------------------
+function buildSearchForm() {
+  // searchFields will come from the server
+  // with the quick table
+  if (!searchFields) return;
+
+  const searchElements = [];
+  // get main container
+  const container = document.querySelector(".popup__content");
+  // get templates - form and its field
+  const searchFormTemplate = document.querySelector("#search-form-template");
+  const searchFieldTemplate = document.querySelector("#search-field-template");
+
+  // create search form fragment
+  const searchForm = searchFormTemplate.content.cloneNode(true);
+
+  // create field html elements
+  searchFields.forEach(createSearchField);
+  // put search elements into searc form
+  const searchFormFields = searchForm.querySelector(".search__fields");
+  searchFormFields.replaceChildren(...searchElements);
+
+  // render the search form under its container
+  container.replaceChildren(searchForm.firstElementChild);
+
+  function createSearchField(searchFieldDefinition) {
+    const searchElement = searchFieldTemplate.content.cloneNode(true);
+    const labelElem = searchElement.querySelector(".search__label");
+
+    labelElem.textContent = searchFieldDefinition.name;
+
+    searchElements.push(searchElement.firstElementChild);
+  }
 }

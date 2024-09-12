@@ -41,7 +41,7 @@
           <div class="popup__content">
             <form class="search__form">
               <div class="search__fields">
-                <div class="search__field">
+                <!-- <div class="search__field">
                   <div class="search__label">CategoryID:</div>
                   <div class="search__value">
                     <input type="text" name="CategoryID" value="" />
@@ -58,7 +58,7 @@
                   <div class="search__value">
                     <input type="text" name="Description" value="" />
                   </div>
-                </div>
+                </div> -->
               </div>
               <div class="search__footer">
                 <input class="search__submit" type="submit" />
@@ -69,4 +69,19 @@
       </div>
     </div>
   </body>
+
+  <template id="search-form-template">
+    <form class="search__form">
+      <div class="search__fields">search fields</div>
+    </form>
+  </template>
+
+  <template id="search-field-template">
+    <div class="search__field">
+      <div class="search__label">Name:</div>
+      <div class="search__value">
+        <input type="text" name="CategoryName" class="search__input" value="" />
+      </div>
+    </div>
+  </template>
 </html>

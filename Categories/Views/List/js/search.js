@@ -1,4 +1,4 @@
-import { showSearchPopup } from "./popup.js";
+import { showPopup } from "./popup.js";
 
 export const searchParams = {};
 
@@ -26,7 +26,7 @@ export function onSubmitSearch(callback) {
 }
 
 function handleSearcBtnClick() {
-  showSearchPopup();
+  showPopup();
 }
 
 function handleSearchSubmit(e) {
