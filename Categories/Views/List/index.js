@@ -1,6 +1,6 @@
 import { fetchCategoriesTable } from "./js/api.js";
 import {
-  buildSearchForm,
+  buildSearchFormPopup,
   buildRequestBodyFromSearchParams
 } from "./js/search.js";
 import {
@@ -14,8 +14,7 @@ import { hidePopup } from "./js/popup.js";
 await getAndRenderQuickTable();
 // after the first call for the table
 // render the search form
-buildSearchForm(handleSearchSubmit);
-// onSubmitSearch();
+buildSearchFormPopup(handleSearchSubmit);
 
 async function getAndRenderQuickTable() {
   showSpinner();
