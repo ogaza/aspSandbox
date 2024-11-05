@@ -1,1 +1,0 @@
-﻿<%@ ServiceHost Language="C#" Debug="true" Service="WCFSandbox.AccountHolderService" CodeBehind="AccountHolderService.svc.cs" %>
