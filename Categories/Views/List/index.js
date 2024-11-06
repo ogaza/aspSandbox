@@ -25,8 +25,13 @@ async function getAndRenderQuickTable() {
 
   hideSpinner();
 
-  if (response.status >= 400) {
-    renderTable(getErrorMessage());
+  const { status, statusText } = response;
+
+  if (status >= 400) {
+    renderTable(getErrorMessage({ status, statusText }));
+
+    redirectToLoginPageAfterFiveSeconds();
+
     return;
   }
 
@@ -36,8 +41,8 @@ async function getAndRenderQuickTable() {
   submitform2 = submitform2__override;
 }
 
-function getErrorMessage() {
-  return "An error occured when loading the data.";
+function getErrorMessage({ status, statusText }) {
+  return `An error occured when loading the data. Response status: ${status} - ${statusText}`;
 }
 
 function submitform2__override(...args) {
@@ -48,4 +53,12 @@ function submitform2__override(...args) {
 function handleSearchSubmit() {
   hidePopup();
   getAndRenderQuickTable();
+}
+
+function redirectToLoginPageAfterFiveSeconds() {
+  setTimeout(redirectToLoginPage, 5000);
+}
+
+function redirectToLoginPage() {
+  window.location = "/Auth/Views/LoginForm/LoginForm.asp";
 }
