@@ -58,7 +58,8 @@ End Function
 Sub InsertQuickTable()
 
   Dim searchParams 
-  searchParams = GetSearchParamsFromForm()
+  searchParams = GetSearchParamDefinitions()
+  GetSearchParamValuesFromForm(searchParams)
 
   Dim s_SearchClause 
   s_SearchClause = BuildSearchWhereClause(searchParams)

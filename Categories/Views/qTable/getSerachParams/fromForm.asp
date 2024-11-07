@@ -1,5 +1,5 @@
 <%
-Function GetSearchParamsFromForm()
+Function GetSearchParamDefinitions()
 
   ReDim searchParamNames(2)
 
@@ -31,18 +31,26 @@ Function GetSearchParamsFromForm()
     item.ColumnType = searchParamTypes(i)
     item.Size = searchParamSizes(i)
 
-    Dim value : value = Request.Form(searchParamNames(i))
-
-    If value <> "" Then
-      item.Value = value
-    End If
-
     Set arr(i) = item
 
     i = i + 1
   Next
 
-  GetSearchParamsFromForm = arr
+  GetSearchParamDefinitions = arr
+
+End Function
+
+Function GetSearchParamValuesFromForm(ByRef arr)
+
+  Dim item, i : i = 0
+
+  For Each item in arr
+    Dim value : value = Request.Form(item.Name)
+
+    If value <> "" Then
+      item.Value = value
+    End If
+  Next
 
 End Function
 %>
