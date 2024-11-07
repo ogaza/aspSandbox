@@ -1,7 +1,7 @@
 
 
 <%
-Function GetColumnsFrom(oRs)
+Function GetSearchParamsFromRS(oRs)
   Dim idx : idx = 0
   ReDim arr(oRs.Fields.Count - 1)
   Dim item, Field
@@ -15,7 +15,7 @@ Function GetColumnsFrom(oRs)
     idx = idx + 1
   Next
 
-  GetColumnsFrom = arr
+  GetSearchParamsFromRS = arr
 End Function
 %>
 

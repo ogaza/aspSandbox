@@ -5,6 +5,7 @@ AuthenticateApiRequest
 
 <!--#include virtual="/DB/iDBPointer.asp"-->
 <!--#include virtual="/Categories/Views/qTable/qTableTools.asp"-->
+<!--#include virtual="/Categories/Views/qTable/getSerachParams/fromForm.asp"-->
 
 <!-- main page content -->
 <%
@@ -14,46 +15,6 @@ Call InsertQuickTable()
 %>
 
 <%
-Function GetSearchParams()
-
-  Dim CategoryID : CategoryID = Request.Form("CategoryID")
-  Dim CategoryName : CategoryName = Request.Form("CategoryName")
-  Dim Description : Description = Request.Form("Description")
-
-  ReDim arr(2)
-
-  Dim item
-
-  Set item = New TableColumn
-  item.Name = "CategoryID"
-  item.ColumnType = adInteger
-  If CategoryID <> "" Then
-    item.Value = CategoryID
-  End If
-  Set arr(0) = item
-
-  Set item = New TableColumn
-  item.Name = "CategoryName"
-  item.ColumnType = adVarChar
-  item.Size = 100
-  If CategoryName <> "" Then
-    item.Value = CategoryName
-  End If
-  Set arr(1) = item
-  
-  Set item = New TableColumn
-  item.Name = "Description"
-  item.ColumnType = adVarChar
-  item.Size = 100
-  If Description <> "" Then
-    item.Value = Description
-  End If
-  Set arr(2) = item
-
-  GetSearchParams = arr
-
-End Function
-
 Function BuildSearchWhereClause(searchParams)
   BuildSearchWhereClause = ""
 
@@ -97,7 +58,7 @@ End Function
 Sub InsertQuickTable()
 
   Dim searchParams 
-  searchParams = GetSearchParams()
+  searchParams = GetSearchParamsFromForm()
 
   Dim s_SearchClause 
   s_SearchClause = BuildSearchWhereClause(searchParams)
@@ -155,8 +116,11 @@ Sub InsertQuickTable()
     .build
   End With
 
-  searchColumns = GetColumnsFrom(oRs)
-  RenderSearchColumnsInJS(searchColumns)
+  ' use searchParams instead of building them 
+  ' again but using the RecordSet
+  RenderSearchColumnsInJS(searchParams)
+  ' searchParams = GetSearchParamsFromRS(oRs)
+  ' RenderSearchColumnsInJS(searchParams)
 
   Set oRs = Nothing
 	Set oQTable = Nothing
