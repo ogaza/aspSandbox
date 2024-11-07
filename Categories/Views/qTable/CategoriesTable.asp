@@ -74,12 +74,7 @@ Sub InsertQuickTable()
   '   End If
   ' Next
 
-	Dim oQTable : Set oQTable = Server.CreateObject("Crossoft.QuickTable")
-  oQTable.sort = False
-
-  Dim oRs, oCom
-
-  Dim sSql
+  Dim oCom, sSql
 
   If s_SearchClause = "" Then
     sSql = _
@@ -103,12 +98,15 @@ Sub InsertQuickTable()
 
   Call AppendParamsToCommand(searchParams, oCom)
 
+  Dim oRs
   Set oRs = Server.CreateObject("ADODB.Recordset")
   ' oRs.CursorLocation = adUseClient
   oRs.CursorType = adOpenStatic
   On Error Resume Next
   oRs.Open oCom ', ,adOpenStatic, adLockReadOnly
 
+  Dim oQTable : Set oQTable = Server.CreateObject("Crossoft.QuickTable")
+  oQTable.sort = False
   Set oQTable.adors = oRs
 
   With oQTable
