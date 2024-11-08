@@ -299,31 +299,3 @@ Sub FormCsrfHiddenInput
 <%
 End Sub
 %>
-
-<%
-' Response.Write("REQUEST_METHOD: " & Request.ServerVariables("REQUEST_METHOD"))
-' Response.Write("<br>")
-' Response.Write("CSRF_SECURITY_TOKEN: " & Session("CSRF_SECURITY_TOKEN"))
-
-' The CSRF check defined here have yet to be implemented within NAR, hence the 0 = 1
-' If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
-' If 0 = 1 AND Request.ServerVariables("REQUEST_METHOD") = "POST" Then
-    ' Dim multipartFormType : multipartFormType = Instr(Request.ServerVariables("CONTENT_TYPE"), "multipart/form-data")
-    ' If (IsNull(multipartFormType) Or multipartFormType = 0) Then
-    '     Dim forceLogout : forceLogout = false
-    '     If (Request.Form("c16e").Count = 0) Then
-    '         forceLogout = true
-    '     Elseif (Request.Form("c16e")(1) <> Session("CSRF_SECURITY_TOKEN")) Then
-    '         forceLogout = true
-    '     End If
-
-    '     If forceLogout Then
-    '         ' If we do not have a matching security token on a Form post, cancel the session and redirect to the home page
-    '         ' Do not disclose to the user that this was due to a CSRF issue
-    '         Session.Contents.RemoveAll
-    '         Session.Abandon
-    '         Response.Redirect("/")
-    '     End If
-    ' End If
-' End If
-%>

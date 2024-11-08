@@ -1,50 +1,16 @@
 <!--#include virtual="/Auth/User.asp"-->
 
 <%
-Function CheckLogin(loginname, currpwd)
-  Dim crypto
-  set crypto = Server.CreateObject("ApxCryptography.ApxCrypto.1")
-
-  Dim hash
-  hash = crypto.HashPassword(currpwd)
-  set crypto = Nothing
-
-  Dim loggedInUser
-  Set loggedInUser = (New User).Init(loginname, hash, currpwd) 
-
-  Session("APXLOGIN") = True
-  Session("APXLOGIN.Id") = loggedInUser.Id
-  Session("APXLOGIN.PasswordHash") = loggedInUser.PasswordHash
-  Session("APXLOGIN.Password") = loggedInUser.Password
-End Function
-
-Function LogOff()
-  Session.Contents.RemoveAll
-  Session.Abandon
-End Function
-
-Sub RedirectIfNotLoggedIn
-  If Not IsLoogedIn() Then
-    Dim requestedUrl : requestedUrl = Request.ServerVariables("URL")
-    Response.Redirect("/Auth/Views/LoginForm/LoginForm.asp?url=" & requestedUrl)
-    Response.End
-  End If
-End Sub
-
 Sub AuthenticateApiRequest 
   Dim userIsLoogedIn
   userIsLoogedIn = Session("APXLOGIN")
 
-  If Not userIsLoogedIn Then
-    Response.Status = "401 Unauthorized"
-    Response.Write("null")
-    Response.End
-  End If
+  ' If Not userIsLoogedIn Then
+  '   Response.Status = "401 Unauthorized"
+  '   Response.Write("null")
+  '   Response.End
+  ' End If
 End Sub
-
-Function IsLoogedIn()
-  IsLoogedIn = Session("APXLOGIN")
-End Function
 
 Sub CheckCSRF 
   If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
