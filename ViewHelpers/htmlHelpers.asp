@@ -91,6 +91,45 @@ end class
 %>
 
 <%
+Function SelectOption(name, options)
+  %>
+  <select name="<%=name%>">
+  <%
+  Dim i
+  For i = 0 to UBound(options)
+
+  %>
+    <option 
+      id="<%=Reform.HtmlAttributeEncode(options(i, 0))%>"
+      value="<%=Reform.HtmlAttributeEncode(options(i, 1))%>"
+      <%If options(i, 2) = True Then%>
+      selected
+      <%End If%>
+    >
+      <%=Reform.HtmlEncode(options(i, 1))%>
+    </option>
+  <%
+  Next
+  %>
+  </select>
+<%
+End Function
+%>
+
+<%
 Dim HTMLHelper
 Set HTMLHelper = new HTMLHelperClass
+
+Function IterateTwoDimensionalArray(arr)
+  Dim i, j
+  For i = 0 to UBound(arr)
+    For j = 0 to UBound(arr, 2)
+
+      Response.Write(arr(i, j))
+
+    Next
+    Response.Write("</br>")
+  Next
+End Function
+
 %>
