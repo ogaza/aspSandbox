@@ -9,10 +9,12 @@
 
 <!-- includes for asp with code here -->
 
+<!--#include virtual="/DB/iDB.asp"-->
+<!--#include virtual="/DB/iDBPointer.asp"-->
 <!--#include virtual="/Auth/Services/ApxSecurity.inc.asp"-->
 <!--#include virtual="/Auth/Services/Authservice.asp"-->
 <!--#include virtual="Auth/Filters/AuthFilter.asp"-->
-<!--#include virtual="/DB/iDBPointer.asp"-->
+<!--#include virtual="/sql-vulnerabilities/DAO/recAccountHolder.asp"-->
 
 <!--#include virtual="/ViewHelpers/htmlHelpers.asp"-->
 
@@ -45,7 +47,8 @@
       <div class="row">
         <%
         Dim options
-        options = GetSelectOptions()
+        options = recAccountHolder__select(1)
+        ' options = GetSelectOptions()
         Call SelectOption("test", options)
         %>
       </div>

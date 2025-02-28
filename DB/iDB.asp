@@ -1,5 +1,5 @@
 <%
-Sub DisplaySqlError(ByVal sSql)
+Sub DisplaySqlError(ByVal sSql, ByRef TagDB)
 %>
   <table>
     <%
