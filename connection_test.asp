@@ -10,7 +10,11 @@ Set TagDB = Server.CreateObject("ADODB.Connection")
 
 ' TagDB.Open("Provider=SQLOLEDB.1;Password=n0write;Persist Security Info=True;User ID=verra-publicuser;Initial Catalog=VERRA-APP-PRE01;Data Source=emregqa-usw-db4")
 
-TagDB.Open("Provider=SQLOLEDB.1;Password=Parowa.01;Persist Security Info=True;User ID=sa;Initial Catalog=VERRA;Data Source=.")
+' TagDB.ConnectionString = "Provider=SQLNCLI11;Password=Parowa.01;Persist Security Info=True;User ID=sa;Initial Catalog=VERRA;Data Source=."
+TagDB.ConnectionString = "Provider=SQLNCLI11;Password=n0write;Persist Security Info=True;User ID=verra-publicuser;Initial Catalog=VERRA-APP-PRE01;Data Source=emregqa-usw-db4"
+TagDB.Open
+
+' TagDB.Open("Provider=SQLOLEDB.1;Password=Parowa.01;Persist Security Info=True;User ID=sa;Initial Catalog=VERRA;Data Source=.")
 
 On Error Goto 0
 
@@ -29,7 +33,7 @@ Response.Write("test end")
 Function test__select()
   Dim sql
   sql = _
-  "SELECT " &_
+  "SELECT TOP 10" &_
   "  riid " &_
   "FROM " &_
   "  recInfo "
