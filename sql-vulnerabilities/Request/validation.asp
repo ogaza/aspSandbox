@@ -1,4 +1,4 @@
-<% 
+<%
 
 Function InputIsNumeric(param)
 
@@ -69,7 +69,7 @@ Function IsEmailAddress(ByRef param)
 
 End Function
 
-Function InputMatchesPattern(ByRef param, pattern)
+Function InputMatchesPattern(ByRef inputParam, pattern)
 
   InputMatchesPattern = False
 
@@ -104,5 +104,36 @@ Function GetRegExMatchesFromString(str, pattern)
 
   Set RegEx = Nothing
 
+End Function
+
+Function CheckIsOneOfTheList(ByRef sParameter, slist)
+
+  If IsEmpty(sParameter) OR sParameter = "" Then
+   exit Function
+  End If
+
+  Dim isValid
+  isValid = StringValueIsOnTheList(sParameter, Split(slist,","))
+
+  If (Not isValid) Then
+    Call HandleUnsafeStringParameter_v2(sParameter)
+  End If
+
+End Function
+
+Function StringValueIsOnTheList(val, list)
+  StringValueIsOnTheList = False
+
+  Dim valLCase
+  valLCase = LCase(val)
+
+  Dim listItem
+  For Each listItem in list
+    StringValueIsOnTheList = (valLCase = LCase(listItem))
+    ' StringValueIsOnTheList = (InStr(valLCase, listItem) <> 0)
+    If StringValueIsOnTheList Then
+      Exit Function
+    End If
+  Next
 End Function
 %>
