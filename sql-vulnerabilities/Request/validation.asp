@@ -1,5 +1,17 @@
 <%
 
+Function IsBoolean(param)
+  IsBoolean = False
+
+  On Error Resume Next
+  ' CStr(True)
+  If LCase(CStr(param)) = "true" Or LCase(cstr(param)) = "false" Then
+    IsBoolean = True
+  End If
+  On Error GoTo 0
+
+End Function
+
 Function InputIsNumeric(param)
 
   InputIsNumeric = IsNumeric(param)
@@ -135,5 +147,37 @@ Function StringValueIsOnTheList(val, list)
       Exit Function
     End If
   Next
+End Function
+%>
+
+<%
+' ------------------------------------------
+' old registry style
+
+Function CheckForSafeStringParameter(ByVal bHandle, ByRef sParameter)
+  sParameter = CStr(sParameter)
+
+  Dim bReturn
+  bReturn = ( _
+    Not IsEmpty(sParameter) _
+    And Not InStr(sParameter, "<") > 0 _
+    And Not InStr(sParameter, ">") > 0 _
+    And Not InStr(sParameter, "&lt;") > 0 _
+    And Not InStr(sParameter, "&gt;") > 0 _
+    And Not InStr(sParameter, "--") > 0 _
+    And Not InStr(sParameter, """") > 0 _
+    And Not InStr(sParameter, "%3C") > 0 _
+    And Not InStr(sParameter, "%3E") > 0 _
+  )
+
+	' If (Not bReturn) Then
+	' 	If (bHandle) Then
+	' 		Call HandleUnsafeStringParameter(sParameter)
+	' 	Else
+	' 		sParameter = Replace(sParameter, "'", "''")
+	' 	End If
+	' End If
+
+  CheckForSafeStringParameter = bReturn
 End Function
 %>
