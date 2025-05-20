@@ -16,6 +16,7 @@
 <!--#include virtual="Auth/Filters/AuthFilter.asp"-->
 <!--#include virtual="/sql-vulnerabilities/DAO/recAccountHolder.asp"-->
 
+<!--#include virtual="/sql-vulnerabilities/Request/validation.asp"-->
 <!--#include virtual="/ViewHelpers/htmlHelpers.asp"-->
 
 <!-- end of asp includes -->
@@ -24,6 +25,31 @@
 <%
 ' RedirectIfNotLoggedIn
 %>
+
+
+<%
+
+Dim myCheckbox, m_bActive
+' myCheckbox = Request.QueryString("myCheckbox")
+' Response.Write("myCheckbox: " & myCheckbox & "</br>")
+
+m_bActive = CStr(True) = Request.QueryString("rdoOpen")
+Response.Write("m_bActive: " & m_bActive & "</br>")
+Response.Write("LCase(CStr(True)): " & LCase(CStr(True))  & "</br>")
+Response.Write("IsBoolean(m_bActive): " & IsBoolean(m_bActive) & "</br>")
+
+Dim m_dtStatusEffectiveDate
+m_dtStatusEffectiveDate = Request.QueryString("StatusEffectiveDate")
+If m_dtStatusEffectiveDate = "" Then
+  m_dtStatusEffectiveDate = "2017-04-05 15:36:35.000"
+End If
+Response.Write("m_dtStatusEffectiveDate: " & m_dtStatusEffectiveDate & "</br>")
+Response.Write("CheckForSafeStringParameter(True, m_dtStatusEffectiveDate): " & CheckForSafeStringParameter(True, m_dtStatusEffectiveDate) & "</br>")
+
+%>
+
+
+
 <!-- end of asp code-->
 
 <!-- page header  -->
@@ -38,7 +64,7 @@
 
       <div class="divider-64">
       </div>
-      <!-- 
+      <!--
       <div class="divider">
       </div>
       -->
@@ -55,6 +81,23 @@
 
       <div class="divider">
       </div>
+      <div>
+        <form id="myForm" name="myForm">
+          <%
+          Call iUtils_YesNoOption("rdoOpen", m_bActive, False)
+          %>
+          <INPUT
+            name="StatusEffectiveDate"
+            value="<%=m_dtStatusEffectiveDate%>" size="50" style="color:Gray"
+          >
+          <!--
+          <input type="checkbox" id="myCheckbox" name="myCheckbox" >
+          <label for="myCheckbox">This is a checkbox</label>
+          -->
+          <button type="submit">Submit</button>
+        </form>
+      </div>
+
       <!--
       -->
     </section>
@@ -68,7 +111,7 @@ Function GetSelectOptions()
   options(0, 0) = 1
   options(0, 1) = "first"
   ' options(0, 2) = True
-  
+
   options(1, 0) = 2
   options(1, 1) = "second"
   options(1, 2) = True

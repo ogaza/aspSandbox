@@ -1,5 +1,5 @@
 
-<% 
+<%
 class HTMLHelperClass
 %>
   <%
@@ -17,9 +17,9 @@ class HTMLHelperClass
   <%
   Function TextBoxBase(name, value, readonly)
   %>
-    <input 
+    <input
       <%
-      ' type=hidden 
+      ' type=hidden
       Dim nameEncoded
       nameEncoded = Reform.HtmlAttributeEncode(name)
       %>
@@ -41,17 +41,17 @@ class HTMLHelperClass
   <%
   Function CheckBox(name, checked)
   %>
-    <input 
-      type="checkbox" 
+    <input
+      type="checkbox"
       <%
       Dim nameEncoded
       nameEncoded = Reform.HtmlAttributeEncode(name)
       %>
       id="<%=nameEncoded%>"
       name="<%=nameEncoded%>"
-      <%If checked = True Then%> 
-      checked 
-      <%End If%> 
+      <%If checked = True Then%>
+      checked
+      <%End If%>
       value="1">
   <%
   End function
@@ -99,7 +99,7 @@ Function SelectOption(name, options)
   For i = 0 to UBound(options)
 
   %>
-    <option 
+    <option
       id="<%=Reform.HtmlAttributeEncode(options(i, 0))%>"
       value="<%=Reform.HtmlAttributeEncode(options(i, 1))%>"
       <%If options(i, 2) = True Then%>
@@ -112,6 +112,19 @@ Function SelectOption(name, options)
   Next
   %>
   </select>
+<%
+End Function
+%>
+
+<%
+Function iUtils_YesNoOption(ByVal sName, _
+							ByVal bYes, _
+							ByVal sProperty)
+%>
+			<INPUT type="radio" name="<%=sName%>" value="<%=CStr(True)%>" <%=sProperty%>
+			<%If bYes Then%> CHECKED<%End If%>>Yes&nbsp;&nbsp;&nbsp;&nbsp;
+			<INPUT type="radio" name="<%=sName%>" value="<%=CStr(False)%>" <%=sProperty%>
+			<%If Not bYes Then%> CHECKED<%End If%>>No
 <%
 End Function
 %>
