@@ -40,19 +40,56 @@ If m_dtStatusEffectiveDate = "" Then
 End If
 
 Function DisplayRequestData()
+%>
+<div class="request-data-summary">
+  <div class="summary-item">
+    <div>
+      m_bActive:
+    </div>
+    <div>
+      <%=m_bActive%>
+    </div>
+  </div>
 
-  Response.Write("m_bActive: " & m_bActive & "</br>")
-  Response.Write("LCase(CStr(True)): " & LCase(CStr(True))  & "</br>")
-  Response.Write("IsBoolean(m_bActive): " & IsBoolean(m_bActive) & "</br>")
+  <div class="summary-item">
+    <div>
+      LCase(CStr(True))
+    </div>
+    <div>
+      <%=LCase(CStr(True))%>
+    </div>
+  </div>
 
-  Response.Write("m_dtStatusEffectiveDate: " & m_dtStatusEffectiveDate & "</br>")
-  Response.Write("CheckForSafeStringParameter(True, m_dtStatusEffectiveDate): " & CheckForSafeStringParameter(True, m_dtStatusEffectiveDate) & "</br>")
+  <div class="summary-item">
+    <div>
+      IsBoolean(m_bActive)
+    </div>
+    <div>
+      <%=IsBoolean(m_bActive)%>
+    </div>
+  </div>
 
+  <div class="summary-item">
+    <div>
+      m_dtStatusEffectiveDate
+    </div>
+    <div>
+      <%=m_dtStatusEffectiveDate%>
+    </div>
+  </div>
+
+  <div class="summary-item">
+    <div>
+      CheckForSafeStringParameter(True, m_dtStatusEffectiveDate)
+    </div>
+    <div>
+      <%=CheckForSafeStringParameter(True, m_dtStatusEffectiveDate)%>
+    </div>
+  </div>
+</div>
+<%
 End Function
 %>
-
-
-
 <!-- end of asp code-->
 
 <!-- page header  -->
@@ -115,6 +152,7 @@ End Function
             </div>
             <div class="form-item__input">
               <INPUT
+                type="date"
                 name="StatusEffectiveDate"
                 value="<%=m_dtStatusEffectiveDate%>"
                 style="color:Gray"
