@@ -23,7 +23,7 @@ Function recAccountHolder__select(ahid)
   oCom.CommandType = adCmdText
   oCom.ActiveConnection = TagDB
   oCom.CommandText = sSql
-	
+
   oCom.Parameters.Append oCom.CreateParameter( , adInteger, adParamInput, , ahid)
 
   On Error Resume Next
@@ -33,9 +33,9 @@ Function recAccountHolder__select(ahid)
   ' Set oRs = oCom.Execute
   On Error GoTo 0
 
-  Response.Write("oRs.RecordCount: " & oRs.RecordCount)
-  Response.Write("</br>")
-  
+  ' Response.Write("oRs.RecordCount: " & oRs.RecordCount)
+  ' Response.Write("</br>")
+
   If (TagDB.Errors.Count) Then
     Set oRs = Nothing
 

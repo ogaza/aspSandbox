@@ -1,0 +1,22 @@
+
+
+form {
+
+  margin: 1rem 0;
+
+  display: grid;
+  gap: 0.5rem;
+}
+
+.form-item {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-item__label {
+  text-align: right;
+}
+.form-item__input {
+  text-align: left;
+}

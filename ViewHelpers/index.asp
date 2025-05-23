@@ -3,7 +3,8 @@
 <title>View Holepers</title>
 <!-- links to js and css shoul be at the top in order for them to be placed in the head by the browser-->
 <link rel="stylesheet" href="../views/styles/normalize.css" />
-<link rel="stylesheet" href="style.css" />
+<link rel="stylesheet" href="styles/index.css" />
+<script src="js/validation.js" defer type="module"></script>
 
 <!-- end of links -->
 
@@ -26,26 +27,28 @@
 ' RedirectIfNotLoggedIn
 %>
 
-
 <%
-
 Dim myCheckbox, m_bActive
 ' myCheckbox = Request.QueryString("myCheckbox")
 ' Response.Write("myCheckbox: " & myCheckbox & "</br>")
-
 m_bActive = CStr(True) = Request.QueryString("rdoOpen")
-Response.Write("m_bActive: " & m_bActive & "</br>")
-Response.Write("LCase(CStr(True)): " & LCase(CStr(True))  & "</br>")
-Response.Write("IsBoolean(m_bActive): " & IsBoolean(m_bActive) & "</br>")
 
 Dim m_dtStatusEffectiveDate
 m_dtStatusEffectiveDate = Request.QueryString("StatusEffectiveDate")
 If m_dtStatusEffectiveDate = "" Then
   m_dtStatusEffectiveDate = "2017-04-05 15:36:35.000"
 End If
-Response.Write("m_dtStatusEffectiveDate: " & m_dtStatusEffectiveDate & "</br>")
-Response.Write("CheckForSafeStringParameter(True, m_dtStatusEffectiveDate): " & CheckForSafeStringParameter(True, m_dtStatusEffectiveDate) & "</br>")
 
+Function DisplayRequestData()
+
+  Response.Write("m_bActive: " & m_bActive & "</br>")
+  Response.Write("LCase(CStr(True)): " & LCase(CStr(True))  & "</br>")
+  Response.Write("IsBoolean(m_bActive): " & IsBoolean(m_bActive) & "</br>")
+
+  Response.Write("m_dtStatusEffectiveDate: " & m_dtStatusEffectiveDate & "</br>")
+  Response.Write("CheckForSafeStringParameter(True, m_dtStatusEffectiveDate): " & CheckForSafeStringParameter(True, m_dtStatusEffectiveDate) & "</br>")
+
+End Function
 %>
 
 
@@ -60,48 +63,91 @@ Response.Write("CheckForSafeStringParameter(True, m_dtStatusEffectiveDate): " & 
   <main class="main">
     <section class="section--main">
       <!-- main page content here -->
-      <div>Main page</div>
-
-      <div class="divider-64">
-      </div>
-      <!--
-      <div class="divider">
-      </div>
-      -->
-      <!--
-      -->
-      <div class="row">
-        <%
-        Dim options
-        options = recAccountHolder__select(1)
-        ' options = GetSelectOptions()
-        Call SelectOption("test", options)
-        %>
-      </div>
-
-      <div class="divider">
+      <div>
+        Main page
       </div>
       <div>
         <form id="myForm" name="myForm">
-          <%
-          Call iUtils_YesNoOption("rdoOpen", m_bActive, False)
-          %>
-          <INPUT
-            name="StatusEffectiveDate"
-            value="<%=m_dtStatusEffectiveDate%>" size="50" style="color:Gray"
+
+          <input
+            type="hidden"
+            id="errors"
+            name="errors"
+            value="error 1"
+            data-target="myCheckbox"
           >
+          <input
+            type="hidden"
+            id="errors"
+            name="errors"
+            value="error 1"
+            data-target="myCheckbox"
+          >
+
+          <div class="form-item">
+            <div class="form-item__label">
+              Select item
+            </div>
+            <div class="form-item__input">
+              <%
+              Dim options
+              options = recAccountHolder__select(1)
+              ' options = GetSelectOptions()
+              Call SelectOption("test", options)
+              %>
+            </div>
+          </div>
+
+          <div class="form-item">
+            <div class="form-item__label">
+              Select Yes or No
+            </div>
+            <div class="form-item__input">
+              <%
+              Call iUtils_YesNoOption("rdoOpen", m_bActive, False)
+              %>
+            </div>
+          </div>
+
+          <div class="form-item">
+            <div class="form-item__label">
+              Select date
+            </div>
+            <div class="form-item__input">
+              <INPUT
+                name="StatusEffectiveDate"
+                value="<%=m_dtStatusEffectiveDate%>"
+                style="color:Gray"
+                >
+            </div>
+          </div>
+
+          <div class="form-item">
+            <div class="form-item__label">
+              <label for="myCheckbox">This is a checkbox</label>
+            </div>
+            <div class="form-item__input">
+              <input type="checkbox" id="myCheckbox" name="myCheckbox">
+              <input
+                type="hidden"
+                id="myCheckbox_error"
+                name="myCheckbox_error"
+                value="field must be checked"
+                data-target="myCheckbox"
+              >
+            </div>
+          </div>
+
           <!--
-          <input type="checkbox" id="myCheckbox" name="myCheckbox" >
-          <label for="myCheckbox">This is a checkbox</label>
           -->
           <button type="submit">Submit</button>
         </form>
       </div>
-
-      <!--
-      -->
     </section>
   </main>
+  <%
+  DisplayRequestData
+  %>
 </div>
 
 <%
