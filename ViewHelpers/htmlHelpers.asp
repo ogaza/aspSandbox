@@ -117,14 +117,36 @@ End Function
 %>
 
 <%
-Function iUtils_YesNoOption(ByVal sName, _
-							ByVal bYes, _
-							ByVal sProperty)
+Function iUtils_YesNoOption( _
+  ByVal sName, _
+  ByVal bYes, _
+  ByVal sProperty _
+)
 %>
-			<INPUT type="radio" name="<%=sName%>" value="<%=CStr(True)%>" <%=sProperty%>
-			<%If bYes Then%> CHECKED<%End If%>>Yes&nbsp;&nbsp;&nbsp;&nbsp;
-			<INPUT type="radio" name="<%=sName%>" value="<%=CStr(False)%>" <%=sProperty%>
-			<%If Not bYes Then%> CHECKED<%End If%>>No
+  <label>
+    <input
+      type="radio"
+      name="<%=sName%>"
+      value="<%=CStr(True)%>"
+      <%=sProperty%>
+      <%If bYes Then%>
+      checked
+      <%End If%>
+    >
+    Yes
+  </label>
+  <label>
+    <input
+      type="radio"
+      name="<%=sName%>"
+      value="<%=CStr(False)%>"
+      <%=sProperty%>
+      <%If Not bYes Then%>
+      checked
+      <%End If%>
+    >
+    No
+  </label>
 <%
 End Function
 %>
