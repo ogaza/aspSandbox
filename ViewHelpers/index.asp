@@ -16,6 +16,7 @@
 <!--#include virtual="/Auth/Services/Authservice.asp"-->
 <!--#include virtual="Auth/Filters/AuthFilter.asp"-->
 <!--#include virtual="/sql-vulnerabilities/DAO/recAccountHolder.asp"-->
+<!--#include virtual="/sql-vulnerabilities/DAO/myLogins.asp"-->
 
 <!--#include virtual="/sql-vulnerabilities/Request/validation.asp"-->
 <!--#include virtual="/ViewHelpers/htmlHelpers.asp"-->
@@ -95,6 +96,40 @@ End Function
 <!-- page header  -->
 <!--#include virtual="/Views/Common/myPageHeader.asp"-->
 
+<%
+Dim X999fieldValue : X999fieldValue = "ff"
+' Dim X999fieldValue : X999fieldValue = "test"
+Dim goodValues : goodValues = "1,test,2,3"
+
+Response.Write "X999fieldIsValid: " & X999fieldIsValid(X999fieldValue, goodValues)
+Response.Write "</br>"
+
+Function X999fieldIsValid(X999fieldValue, acceptedValues)
+	X999fieldIsValid = False
+
+	If X999fieldValue = "" Then
+		X999fieldIsValid = True
+		Exit Function
+	End If
+
+  Dim arr : arr = Split(goodValues, ",")
+
+  Dim goodValue
+  For Each goodValue In arr
+
+    Response.Write "goodValue: " & goodValue
+    Response.Write "</br>"
+
+    If X999fieldValue = goodValue Then
+			X999fieldIsValid = True
+			Exit Function
+		End If
+
+  Next
+
+End Function
+%>
+
 <!-- content wrapper -->
 <div class="wrapper">
   <main class="main">
@@ -127,6 +162,7 @@ End Function
             </div>
             <div class="form-item__input">
               <%
+              ' Call myLogins__select_using_rs(1, "")
               Dim options
               options = recAccountHolder__select(1)
               ' options = GetSelectOptions()
@@ -151,10 +187,17 @@ End Function
               Select date
             </div>
             <div class="form-item__input">
+              <input type="hidden" name="Goto" value="<%=Reform.HtmlAttributeEncode("http://localhost <>")%>" />
               <INPUT
                 type="date"
                 name="StatusEffectiveDate"
                 value="<%=m_dtStatusEffectiveDate%>"
+                style="color:Gray"
+                >
+              <INPUT
+                type="text"
+                name="CLng"
+                value="<%=CLng("111")%>"
                 style="color:Gray"
                 >
             </div>

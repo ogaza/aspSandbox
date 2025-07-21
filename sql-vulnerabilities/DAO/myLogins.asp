@@ -137,7 +137,7 @@ Function myLogins__insert(_
   "  @MFA_TOTP_status" & vbCrLf &_
   ")" & vbCrLf
 
-  Dim cmd 
+  Dim cmd
   Set cmd = Server.CreateObject("ADODB.Command")
   cmd.CommandType = adCmdText
   cmd.ActiveConnection = TagDB
@@ -217,7 +217,7 @@ Function myLogins__update(_
   "DECLARE @LoginId int = ?; " & vbcrlf &_
   "UPDATE " & vbCrLf &_
   "  myLogins " & vbCrLf &_
-  "SET " & vbCrLf &_ 
+  "SET " & vbCrLf &_
   "  email = @email," & vbCrLf &_
   "  cellphone = @cellphone, " & vbCrLf &_
   "  Active = @Active, " & vbCrLf &_
@@ -237,7 +237,7 @@ Function myLogins__update(_
   "WHERE " & vbcrlf &_
   "  LoginId = @LoginId " & vbCrLf
 
-  Dim cmd 
+  Dim cmd
   Set cmd = Server.CreateObject("ADODB.Command")
   cmd.CommandType = adCmdText
   cmd.ActiveConnection = TagDB
@@ -288,7 +288,7 @@ Function mylogins__selectHavingRecLogins(loginId, ahId, privilegeType, errorMsg)
   "  AND l.LoginID = @loginId " & vbCrLf &_
   "  AND (@privilegeType <> 32 OR l.PrivilegeType NOT IN (16)) " & vbCrLf
 
-  Dim cmd 
+  Dim cmd
   Set cmd = Server.CreateObject("ADODB.Command")
   cmd.CommandType = adCmdText
   cmd.ActiveConnection = TagDB
@@ -308,16 +308,16 @@ Function mylogins__selectHavingRecLogins(loginId, ahId, privilegeType, errorMsg)
 
   ' DEBUG:
   ' Response.Write("oRs.RecordCount: " & oRs.RecordCount & "</br>")
-  
+
   If (TagDB.Errors.Count) Then
-    errorMsg = "Database error when retrieving mylogins." 
+    errorMsg = "Database error when retrieving mylogins."
     ' oRs.Close
     Set oRs = Nothing
     Call DisplaySqlError(sql)
     Exit Function
   End If
 
-  Dim numberOfColumns 
+  Dim numberOfColumns
   numberOfColumns = oRs.Fields.Count
   ' Response.Write("numberOfColumns: " & numberOfColumns & "</br>")
   ' Response.Write("oRs.RecordCount: " & oRs.RecordCount & "</br>")
@@ -331,7 +331,7 @@ Function mylogins__selectHavingRecLogins(loginId, ahId, privilegeType, errorMsg)
     ' Response.Write("oRs.Fields.Item(0): " & oRs.Fields.Item(0) & "</br>")
     For colIdx = 0 to (numberOfColumns - 1)
       row(colIdx) = oRs.Fields.Item(colIdx)
-    Next    
+    Next
     ' row(0) = oRs.Fields.Item(0)
     ' row(1) = oRs.Fields.Item(1)
     ' row(2) = oRs.Fields.Item(2)
@@ -365,11 +365,11 @@ Function myLogins__update(loginId, loginName, errMsg)
 
   Set oRs = Server.CreateObject("ADODB.Recordset")
   On Error Resume Next
-  oRs.Open oCom, , adOpenKeyset, adOpenDynamic 
+  oRs.Open oCom, , adOpenKeyset, adOpenDynamic
   ' Call oRs.Open("SELECT * FROM myLogins WHERE LoginId = " & m_iLoginId, TagDB, adOpenKeyset, adOpenDynamic)
 
   oRs.Fields("LoginName") = loginName
-  
+
   oRs.Update()
   On Error goto 0
 
@@ -381,6 +381,39 @@ Function myLogins__update(loginId, loginName, errMsg)
   oRs.Close()
   Set oRs =  Nothing
 
-  myLogins__update = True  
+  myLogins__update = True
+End Function
+
+Function myLogins__select_using_rs(loginId, errMsg)
+
+  Dim TagDB
+  Set TagDB = Server.CreateObject("ADODB.Connection")
+  TagDB.Open(VerraDevDatabase)
+
+  Dim oRs, criteria
+
+  Set oRs = Server.CreateObject("ADODB.Recordset")
+
+  On Error Resume Next
+  ' oRs.Open "myLogins", TagDB, adOpenKeyset, adLockOptimistic, adCmdTable
+  Call oRs.Open("myLogins", TagDB, adOpenKeyset, adLockOptimistic, adCmdTable)
+
+  criteria = "LoginId = " & CInt(loginId)
+
+  oRs.Find criteria
+
+  Response.Write("LoginName: " & oRs.Fields.Item("LoginName") & "</br>")
+
+  On Error goto 0
+  ' If (TagDB.Errors.Count) Then
+  '   errMsg = TagDB.Errors.Item(0).Description
+  '   Exit Function
+  ' End If
+
+  oRs.Close()
+  ' Set oRs =  Nothing
+
+  TagDB.Close()
+
 End Function
 %>
