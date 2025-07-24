@@ -2,6 +2,13 @@
 
 <%
 Function CheckLogin(loginname, currpwd)
+
+  If loginname <> "1" Or currpwd <> "1" Then
+    Session.Contents.RemoveAll
+    Session.Abandon
+    Exit Function
+  End If
+
   Dim crypto
   set crypto = Server.CreateObject("ApxCryptography.ApxCrypto.1")
 
@@ -10,7 +17,7 @@ Function CheckLogin(loginname, currpwd)
   set crypto = Nothing
 
   Dim loggedInUser
-  Set loggedInUser = (New User).Init(loginname, hash, currpwd) 
+  Set loggedInUser = (New User).Init(loginname, hash, currpwd)
 
   Session("APXLOGIN") = True
   Session("APXLOGIN.Id") = loggedInUser.Id
@@ -25,13 +32,13 @@ End Function
 
 Sub RedirectIfNotLoggedIn
   If Not IsLoogedIn() Then
-    Dim requestedUrl : requestedUrl = Request.ServerVariables("URL")
-    Response.Redirect("/Auth/Views/LoginForm/LoginForm.asp?url=" & requestedUrl)
+    Dim requestedUrl : requestedUrl = Server.URLEncode(Request.ServerVariables("URL"))
+    Response.Redirect("/Auth/Views/LoginForm.asp?url=" & requestedUrl)
     Response.End
   End If
 End Sub
 
-Sub AuthenticateApiRequest 
+Sub AuthenticateApiRequest
   Dim userIsLoogedIn
   userIsLoogedIn = Session("APXLOGIN")
 
@@ -46,13 +53,13 @@ Function IsLoogedIn()
   IsLoogedIn = Session("APXLOGIN")
 End Function
 
-Sub CheckCSRF 
+Sub CheckCSRF
   If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
-    ' And (InStr(1,Request.ServerVariables("URL"),"CheckLogin.asp",1) = 0 
-    ' Or IsNull(Request.ServerVariables("URL"))) 
+    ' And (InStr(1,Request.ServerVariables("URL"),"CheckLogin.asp",1) = 0
+    ' Or IsNull(Request.ServerVariables("URL")))
     Dim multipartFormType
     multipartFormType = Instr(Request.ServerVariables("CONTENT_TYPE"), "multipart/form-data")
-    
+
     If (IsNull(multipartFormType) Or multipartFormType = 0) Then
         Dim forceLogout : forceLogout = false
 
@@ -67,7 +74,7 @@ Sub CheckCSRF
             ' Do not disclose to the user that this was due to a CSRF issue
             Session.Contents.RemoveAll
             Session.Abandon
-            Response.Redirect("/Auth/Views/ForcedLogout/ForcedLogoutView.asp")
+            Response.Redirect("/Auth/Views/ForcedLogoutView.asp")
             Response.End
         End If
     End If

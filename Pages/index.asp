@@ -19,10 +19,29 @@
   <main class="main">
     <section class="section--main">
       <!-- main page content here -->
-      <div>Main page</div>
+      <div>Test pages</div>
     </section>
     <section>
-      <a href="http://localhost:9090/Pages/index.asp">Test pages</a>
+      <ul>
+        <li>
+          <a href="http://localhost:9090/Pages/formPage.asp">Form Page</a>
+        </li>
+        <li>
+          <a href="http://localhost:9090/Pages/queryStringPage.asp?queryParam=test">QS Page</a>
+        </li>
+        <li>
+          <a href="http://localhost:9090/Pages/sqlFormPage.asp">SQL Form Page</a>
+        </li>
+        <li>
+          <a href="http://localhost:9090/Pages/sqlPage_id.asp?id=11">SQL Id Page</a>
+        </li>
+        <li>
+          <a href="http://localhost:9090/Pages/sqlPage_string.asp?ahName=MIRECS">SQL String Page</a>
+        </li>
+        <li>
+          <a href="http://localhost:9090/index.asp">Back</a>
+        </li>
+      </ul>
     </section>
   </main>
 </div>
