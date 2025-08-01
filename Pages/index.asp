@@ -30,6 +30,9 @@
           <a href="http://localhost:9090/Pages/queryStringPage.asp?queryParam=test">QS Page</a>
         </li>
         <li>
+          <a href="http://localhost:9090/Pages/qTablePage.asp">QTable Page</a>
+        </li>
+        <li>
           <a href="http://localhost:9090/Pages/sqlFormPage.asp">SQL Form Page</a>
         </li>
         <li>
