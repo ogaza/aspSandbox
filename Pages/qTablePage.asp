@@ -49,13 +49,14 @@ Function GetAndDisplayData()
   Dim oQTable, oRs, sSql
 
   Dim VerraDevDatabase
-  VerraDevDatabase = "File Name=C:\Components\_aspSandbox\verra.Dev.UDL;"
+  VerraDevDatabase = "File Name=C:\Components\_aspSandbox\verra.local.UDL;"
 
   Dim oConn
   Set oConn = Server.CreateObject("ADODB.Connection")
   oConn.Open(VerraDevDatabase)
 
-  sSql = "SELECT TOP 10 * FROM recInfo"
+  sSql = "SELECT * FROM Customers"
+  ' sSql = "SELECT TOP 10 * FROM Customers"
 
   Set oRs = Server.CreateObject("ADODB.Recordset")
   oRs.CursorType = adOpenStatic ' So QTable can use the adors.RecordCount property
@@ -71,6 +72,7 @@ Function GetAndDisplayData()
     .recordsperpage = "5"
     .button.imagedir = "/Pages/ImgTable"
     ' .sort = False
+    .display.nav = true
     .html = CsrHiddenInputElement
     .build
   end with
