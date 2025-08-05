@@ -68,7 +68,10 @@ Function GetAndDisplayData()
   Set oQTable.adors = oRs
 
   with oQTable
-    .sort = False
+    .recordsperpage = "5"
+    .button.imagedir = "/Pages/ImgTable"
+    ' .sort = False
+    .html = CsrHiddenInputElement
     .build
   end with
   set oQTable = Nothing
