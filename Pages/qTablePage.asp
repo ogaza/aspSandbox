@@ -59,6 +59,7 @@ Function GetAndDisplayData()
   ' sSql = "SELECT TOP 10 * FROM Customers"
 
   Set oRs = Server.CreateObject("ADODB.Recordset")
+  oRs.CursorLocation = adUseClient ' So QTable can set the adors.Sort property
   oRs.CursorType = adOpenStatic ' So QTable can use the adors.RecordCount property
 
   On Error Resume Next
