@@ -25,7 +25,9 @@ RedirectAuthorizedToRootPage
           action="http://localhost:9090/Auth/Actions/LogIn.asp"
           method="POST"
         >
-          <% FormCsrfHiddenInput %>
+          <%
+          ' FormCsrfHiddenInput
+          %>
 
           <input type="text" name="myuserid" class="form-input" />
           <input type="password" name="mypassword" class="form-input" />

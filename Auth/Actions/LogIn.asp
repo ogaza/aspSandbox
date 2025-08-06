@@ -35,14 +35,14 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
 
     ' Response.Write "wrong user name or password"
     ' Response.End
-    Response.Redirect("/qTablePages/qTablePage.asp")
+    Response.Redirect("/Auth/Views/ForcedLogoutView.asp")
   End If
 
 Else
   Session.Contents.RemoveAll
   Session.Abandon
 
-  Response.Redirect("/qTablePages/qTablePage.asp")
+  Response.Redirect("/Auth/Views/ForcedLogoutView.asp")
 
   ' Response.Status = "401 Unauthorized"
   ' Response.Write "Unauthorized"
