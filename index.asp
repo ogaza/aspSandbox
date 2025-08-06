@@ -22,7 +22,14 @@
       <div>Main page</div>
     </section>
     <section>
-      <a href="http://localhost:9090/Pages/index.asp">Test pages</a>
+      <ul>
+        <li>
+          <a href="http://localhost:9090/Pages/index.asp">Test pages</a>
+        </li>
+        <li>
+          <a href="http://localhost:9090/qTablePages/index.asp">QTable pages</a>
+        </li>
+      </ul>
     </section>
   </main>
 </div>

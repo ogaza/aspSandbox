@@ -39,6 +39,7 @@
         %>
       </div>
     </section>
+    <a href="http://localhost:9090/qTablePages/index.asp">Index page</a>
   </main>
 </div>
 
@@ -71,7 +72,7 @@ Function GetAndDisplayData()
 
   with oQTable
     .recordsperpage = "5"
-    .button.imagedir = "/Pages/ImgTable"
+    .button.imagedir = "/qTablePages/ImgTable"
     ' .sort = False
     .display.nav = true
     .html = CsrHiddenInputElement
