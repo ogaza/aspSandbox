@@ -23,25 +23,29 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
   userIsLoogedIn = Session("APXLOGIN")
 
   If userIsLoogedIn Then
-    Response.Write "Successfully logged in"
+    Response.Redirect("/qTablePages/qTablePage.asp")
+    ' Response.Write "Successfully logged in"
     ' Response.Redirect("/")
     ' Response.End
   Else
     Session.Contents.RemoveAll
     Session.Abandon
 
-    Response.Status = "401 Unauthorized"
+    ' Response.Status = "401 Unauthorized"
 
-    Response.Write "wrong user name or password"
+    ' Response.Write "wrong user name or password"
     ' Response.End
+    Response.Redirect("/qTablePages/qTablePage.asp")
   End If
 
 Else
   Session.Contents.RemoveAll
   Session.Abandon
 
-  Response.Status = "401 Unauthorized"
-  Response.Write "Unauthorized"
+  Response.Redirect("/qTablePages/qTablePage.asp")
+
+  ' Response.Status = "401 Unauthorized"
+  ' Response.Write "Unauthorized"
   ' Response.End
 End If
 %>

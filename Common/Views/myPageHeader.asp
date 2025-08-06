@@ -13,7 +13,7 @@
     <%
     If IsLoogedIn Then
     %>
-      <a href="http://localhost:9090/auth/actions/logOffApi.asp">log off</a>
+      <a href="http://localhost:9090/auth/actions/logOff.asp">log off</a>
     <%
     Else
     %>
