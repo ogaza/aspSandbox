@@ -35,6 +35,9 @@
       </div>
       <div class="table-container">
         <%
+        Call SortingDropDowns()
+        %>
+        <%
         Call GetAndDisplayData()
         %>
       </div>
@@ -42,6 +45,72 @@
     <a href="http://localhost:9090/qTablePages/index.asp">Index page</a>
   </main>
 </div>
+
+<%
+Function SortingDropDowns()
+%>
+  <script language="javascript" type="text/javascript">
+
+  function handleSortFieldChange() {
+    const selectedField = document.getElementById("sortingFieldDD")?.value;
+    console.log("selectedField: ", selectedField);
+
+    submitform2('Asc',selectedField,'','','','','');
+  }
+
+  function handleSortDirectionChange() {
+    const selectedField = document.getElementById("sortingFieldDD")?.value;
+    const selectedDirection = document.getElementById("sortingDirectionDD")?.value;
+
+    submitform2(selectedDirection,selectedField,'','','','','');
+  }
+
+  <%
+  Dim sortFieldReq, sortDirReq
+  sortFieldReq = Request.Form("X999field")
+  sortDirReq = Request.Form("X999sort")
+
+  Dim sortField
+  Dim sortFields(10)
+  sortFields(0) = "CustomerId"
+  sortFields(1) = "CompanyName"
+  sortFields(2) = "ContactName"
+  sortFields(3) = "ContactTitle"
+  sortFields(4) = "Address"
+  sortFields(5) = "City"
+  sortFields(6) = "Region"
+  sortFields(7) = "PostalCode"
+  sortFields(8) = "Country"
+  sortFields(9) = "Phone"
+  sortFields(10) = "Fax"
+  %>
+
+  </script>
+
+  <div class="sorting-settings">
+    <div>
+      Sorted by: <%=sortFieldReq%>
+    </div>
+    <div>
+      Sort dir: <%=sortDirReq%>
+    </div>
+    <select id="sortingFieldDD" onChange="javascript:handleSortFieldChange()">
+      <%
+      For Each sortField In sortFields
+      %>
+      <option value="<%=sortField%>" <%If sortFieldReq = sortField Then %> selected <% End If %>><%=sortField%></option>
+      <%
+      Next
+      %>
+    </select>
+    <select id="sortingDirectionDD" onChange="javascript:handleSortDirectionChange()">
+      <option value="Asc" <%If sortDirReq = "Asc" Then %> selected <% End If %> >Asc</option>
+      <option value="Desc" <%If sortDirReq = "Desc" Then %> selected <% End If %> >Desc</option>
+    </select>
+  </div>
+<%
+End Function
+%>
 
 <%
 

@@ -3,6 +3,10 @@
   .table-container {
     overflow: auto;
   }
+
+  .sorting-settings {
+    display: none;
+  }
 }
 
 form > table > tbody > tr:nth-child(1) > td > table {
@@ -27,8 +31,9 @@ form > table > tbody > tr:nth-child(1) > td > table td {
 }
 
 form > table > tbody > tr:nth-child(1) > td > table > tbody > tr:nth-of-type(1) {
-  /* display: none; */
+  display: none;
 }
+
 form > table > tbody > tr:nth-child(1) > td > table > tbody > tr:not(:nth-of-type(1)) > td:before {
   flex-basis: 33%;
 }
@@ -69,9 +74,11 @@ form > table > tbody > tr:nth-child(1) > td > table > tbody > tr:not(:nth-of-typ
 }
 
 @media (min-width: 768px) {
-  /*
-  td:before is not specific enough to override the original
-  declarations, thus this method */
+
+  form > table > tbody > tr:nth-child(1) > td > table > tbody > tr:nth-of-type(1) {
+    display: table-row;
+  }
+
   form > table > tbody > tr:nth-child(1) > td > table {
     display: table;
   }
