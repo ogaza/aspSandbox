@@ -17,7 +17,7 @@
 
 <!-- asp code here -->
 <%
-' RedirectIfNotLoggedIn
+RedirectIfNotLoggedIn
 %>
 
 <!-- end of asp code-->

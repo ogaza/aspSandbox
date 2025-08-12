@@ -23,7 +23,8 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
   userIsLoogedIn = Session("APXLOGIN")
 
   If userIsLoogedIn Then
-    Response.Redirect("/qTablePages/qTablePage.asp")
+    Response.Redirect("/Auth/Views/LoggedInView.asp")
+    ' Response.Redirect("/qTablePages/qTablePage.asp")
     ' Response.Write "Successfully logged in"
     ' Response.Redirect("/")
     ' Response.End
