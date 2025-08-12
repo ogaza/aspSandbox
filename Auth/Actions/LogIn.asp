@@ -23,9 +23,20 @@ If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
   userIsLoogedIn = Session("APXLOGIN")
 
   If userIsLoogedIn Then
-    Response.Redirect("/Auth/Views/LoggedInView.asp")
+
+    Dim redirectUrl
+    redirectUrl = Request.QueryString("url")
+
+    If redirectUrl = "" Then
+      redirectUrl = "/"
+    End If
+
+    ' Response.Write "redirectUrl: " & redirectUrl
+    Response.Redirect(redirectUrl)
+
+    ' Response.Write "url: " &  & "</br>"
     ' Response.Redirect("/qTablePages/qTablePage.asp")
-    ' Response.Write "Successfully logged in"
+    ' Response.Write "logged in </br>"
     ' Response.Redirect("/")
     ' Response.End
   Else

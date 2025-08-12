@@ -15,6 +15,18 @@ RedirectAuthorizedToRootPage
 
 <!--#include virtual="/Common/Views/myPageHeader.asp"-->
 
+<%
+Dim url, formUrl
+
+formUrl = "http://localhost:9090/Auth/Actions/LogIn.asp"
+url = Request.QueryString("url")
+
+
+If url <> "" Then
+  formUrl = formUrl & "?url=" & Server.URLEncode(url)
+End If
+%>
+
 <!-- content wrapper -->
 <div class="wrapper">
   <main class="main">
@@ -23,7 +35,7 @@ RedirectAuthorizedToRootPage
       <div class="form-container">
         <form
           class="form form--login"
-          action="http://localhost:9090/Auth/Actions/LogIn.asp"
+          action="<%=formUrl%>"
           method="POST"
         >
           <%
