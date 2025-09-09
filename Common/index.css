@@ -1,9 +1,7 @@
 
 
 form {
-
   margin: 1rem 0;
-
   display: grid;
   gap: 0.5rem;
 }
@@ -19,16 +17,4 @@ form {
 }
 .form-item__input {
   text-align: left;
-}
-
-.request-data-summary {
-  /* display: flex; */
-  /* flex-flow: column nowrap; */
-  display: grid;
-  gap: 0.5rem;
-}
-
-.summary-item {
-  display: grid;
-  grid-template-columns: 3fr 2fr;
 }

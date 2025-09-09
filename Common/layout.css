@@ -1,0 +1,21 @@
+.wrapper {
+  margin: 0 auto;
+  max-width: 800px;
+}
+
+.section--main {
+  text-align: center;
+}
+
+.main {
+  display: grid;
+  grid-template-columns: 1fr 2fr;
+
+  margin-top: 1rem;
+  /* padding: 0.5rem 0; */
+}
+
+.nav {
+  margin-top: 1rem;
+  /* padding: 0.5rem 0; */
+}

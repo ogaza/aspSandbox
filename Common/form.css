@@ -1,0 +1,15 @@
+.form-container {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+}
+
+.form {
+  display: flex;
+  flex-flow: column nowrap;;
+  gap: 1rem;
+}
+
+.form-values {
+
+}

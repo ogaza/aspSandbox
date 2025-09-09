@@ -1,6 +1,11 @@
 .common-header {
   display: flex;
   justify-content: space-between;
+
+  margin-top: 1rem;
+  /* padding: 1rem 0; */
+
+
 }
 
 
