@@ -1,14 +1,3 @@
-<%
-If Not IsLoogedIn() Then
-  %>
-  <div>
-    Not logged-in
-  </div>
-  <a href="../">back</a>
-  <%
-  Response.End
-End If
-%>
 <title>ASP Sandbox</title>
 <!-- links to js and css shoul be at the top in order for them to be placed in the head by the browser-->
 <link rel="stylesheet" href="http://localhost:9090/common/normalize.css" />
@@ -19,6 +8,7 @@ End If
 
 <!-- includes for asp with code here -->
 
+<!--#include virtual="/Auth/SecurityCheck.asp"-->
 <!--#include virtual="/include/ApxSecurity.inc.asp"-->
 
 <!-- end of asp includes -->
@@ -53,9 +43,9 @@ MyPageHeader
       <div class="form-values">
         Form Value: <%=inpt1%>
       </div>
-    <%
-    End If
-    %>
+      <%
+      End If
+      %>
     </section>
   </main>
 </div>
@@ -67,14 +57,10 @@ Function MyPageHeader()
   <div class="common-header">
     ASP Sandbox App
     <div>
-      <a href="http://localhost:9090/auth/checkLogIn.asp?logoff=1">log off</a>
+      <a href="http://localhost:9090/?logoff=1">log off</a>
     </div>
   </div>
 </div>
 <%
-End Function
-
-Function IsLoogedIn()
-  IsLoogedIn = Session("APXLOGIN")
 End Function
 %>

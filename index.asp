@@ -1,8 +1,16 @@
+<%
+If (Request.QueryString("logoff") = "1") then
+  Session.Contents.RemoveAll
+    .Abandon
+  ' Redirect to the application home page - this will initialize the new session
+  Response.Redirect "/"
+end if
+%>
+
 <title>ASP Sandbox</title>
 <!-- links to js and css shoul be at the top in order for them to be placed in the head by the browser-->
 <link rel="stylesheet" href="http://localhost:9090/common/normalize.css" />
 <link rel="stylesheet" href="http://localhost:9090/common/layout.css" />
-<link rel="stylesheet" href="http://localhost:9090/common/loginForm.css" />
 <link rel="stylesheet" href="http://localhost:9090/common/myPageHeader.css" />
 <link rel="stylesheet" href="http://localhost:9090/common/form.css" />
 <!-- end of links -->
@@ -113,7 +121,7 @@ Function MyPageHeader()
     If IsLoogedIn() Then
     %>
     <div>
-      <a href="http://localhost:9090/auth/checkLogIn.asp?logoff=1">log off</a>
+      <a href="http://localhost:9090/?logoff=1">log off</a>
     </div>
     <%
     End If
@@ -122,7 +130,9 @@ Function MyPageHeader()
 </div>
 <%
 End Function
+%>
 
+<%
 Function IsLoogedIn()
   IsLoogedIn = Session("APXLOGIN")
 End Function
