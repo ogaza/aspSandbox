@@ -1,7 +1,7 @@
 <%
 If (Request.QueryString("logoff") = "1") then
   Session.Contents.RemoveAll
-    .Abandon
+  Session.Abandon
   ' Redirect to the application home page - this will initialize the new session
   Response.Redirect "/"
 end if
@@ -59,7 +59,7 @@ formUrl = "./auth/checkLogIn.asp"
         method="POST"
       >
         <%
-        ' FormCsrfHiddenInput
+        FormCsrfHiddenInput
         %>
         <label>
           Log in form
@@ -84,6 +84,9 @@ formUrl = "./auth/checkLogIn.asp"
       %>
       <form class="form" method="POST">
         <label>Home Page Form</label>
+        <%
+        FormCsrfHiddenInput
+        %>
         <input name="inpt1" type="text" />
         <input type="submit" value="submit" />
       </form>

@@ -32,16 +32,25 @@ MyPageHeader
     <section>
       <form class="form" method="POST">
         <label>Second Page Form</label>
+        <%
+        FormCsrfHiddenInput
+        %>
         <input name="inpt1" type="text" />
+        <input name="inpt2" type="text" />
         <input type="submit" value="submit" />
       </form>
       <%
       If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
       Dim inpt1
       Set inpt1 = Request.Form("inpt1")
+      Dim inpt2
+      Set inpt2 = Request.Form("inpt2")
       %>
       <div class="form-values">
         Form Value: <%=inpt1%>
+      </div>
+      <div class="form-values">
+        Form Value: <%=inpt2%>
       </div>
       <%
       End If
