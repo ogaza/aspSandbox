@@ -295,15 +295,42 @@ End Function
 <%
 Sub FormCsrfHiddenInput
 %>
-  <input type="hidden" name="csrf_token" value="<%=Reform.HtmlAttributeEncode(Reform.HtmlAttributeEncode(Session("CSRF_SECURITY_TOKEN")))%>">
+  <input type="hidden" name="c16e" value="<%=Reform.HtmlAttributeEncode(Reform.HtmlAttributeEncode(Session("CSRF_SECURITY_TOKEN")))%>">
 <%
 End Sub
 %>
 
 <%
-' Response.Write("REQUEST_METHOD: " & Request.ServerVariables("REQUEST_METHOD"))
-' Response.Write("<br>")
-' Response.Write("CSRF_SECURITY_TOKEN: " & Session("CSRF_SECURITY_TOKEN"))
+Response.Write("Session(CSRF_SECURITY_TOKEN): " & Session("CSRF_SECURITY_TOKEN"))
+Response.Write("<br>")
+
+If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
+
+  ' Response.Write "c16e.Count: " & Request.Form("c16e").Count
+  ' Response.Write("<br>")
+  ' Response.Write "Form(c16e)(1): " & Request.Form("c16e")(1)
+  ' Response.Write("<br>")
+
+  Dim multipartFormType
+
+  multipartFormType = Instr(Request.ServerVariables("CONTENT_TYPE"), "multipart/form-data")
+
+  If (IsNull(multipartFormType) Or multipartFormType = 0) Then
+    Dim forceLogout : forceLogout = false
+    If (Request.Form("c16e").Count = 0) Then
+      forceLogout = true
+    Elseif (Request.Form("c16e")(1) <> Session("CSRF_SECURITY_TOKEN")) Then
+      forceLogout = true
+    End If
+
+    If forceLogout Then
+      ' Response.Write "Warning: no csrf token"
+      Session.Contents.RemoveAll
+      Session.Abandon
+      Response.Redirect("/?msg=bad request")
+    End If
+  End If
+End If
 
 ' The CSRF check defined here have yet to be implemented within NAR, hence the 0 = 1
 ' If Request.ServerVariables("REQUEST_METHOD") = "POST" Then
