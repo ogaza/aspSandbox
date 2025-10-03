@@ -3,7 +3,7 @@ If (Request.QueryString("logoff") = "1") then
   Session.Contents.RemoveAll
   Session.Abandon
   ' Redirect to the application home page - this will initialize the new session
-  Response.Redirect "/"
+  Response.Redirect "/?msg=logged off"
 end if
 %>
 
@@ -49,6 +49,9 @@ formUrl = "./auth/checkLogIn.asp"
       %>
       <div>
         Logged-in as: <b><%=Session("APXLOGIN.id")%></b>
+      </div>
+      <div>
+        APXLOGIN: <b><%=Session("APXLOGIN")%></b>
       </div>
       <%
       Else
